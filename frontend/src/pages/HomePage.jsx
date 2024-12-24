@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 
-import { getAllWallets } from "../api/test";
+import { getAllWallets } from "../api/bitcoin";
 
 export async function loader() {
   const wallets = await getAllWallets();

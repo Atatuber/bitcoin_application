@@ -169,7 +169,3 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
-
-# NEEDED TO GO IN COMMIT
-!backend/src/main.py
