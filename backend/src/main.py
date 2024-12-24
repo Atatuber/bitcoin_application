@@ -1,5 +1,11 @@
 from bitcoinlib.wallets import Wallet, wallet_delete_if_exists as wallet_delete, wallets_list
 from bitcoinlib.mnemonic import Mnemonic
+from flask import Flask
+from flask_cors import CORS
+
+
+app = Flask(__name__)
+CORS(app)
 
 def createWallet(name):
     mnemonic = Mnemonic().generate()
@@ -25,6 +31,11 @@ def getAllWallets():
         return wallet_info.strip()
     except Exception as e:
         return f"Fout bij ophalen van wallets: {e}"
+    
+@app.route('/test')
+def returnAllWallets():
+    wallets = getAllWallets()
+    return wallets
 
 def getWallet(name):
     try:
