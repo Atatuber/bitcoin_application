@@ -1,13 +1,21 @@
 import { useLoaderData } from "react-router-dom";
 
-import { getAllWallets } from "../../api/bitcoin";
+import { getAllWallets, getWalletInfo } from "../../api/bitcoin";
 
 import WelcomeSection from "./WelcomeSection";
 import WalletsSection from "./WalletsSection";
 
 export async function loader() {
   const wallets = await getAllWallets();
-  return { wallets };
+
+  const walletsWithInfo = await Promise.all(
+    wallets.map(async (wallet) => {
+      const info = await getWalletInfo(wallet.name);
+      return { ...wallet, info };
+    })
+  );
+
+  return { wallets: walletsWithInfo };
 }
 
 export default function HomePage() {
@@ -28,8 +36,8 @@ export default function HomePage() {
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4">
-      <WelcomeSection username={"Atakan"}/>
-      <WalletsSection />
+      <WelcomeSection username={"Atakan"} />
+      <WalletsSection wallets={wallets} />
     </div>
   );
 }

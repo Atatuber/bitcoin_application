@@ -24,9 +24,10 @@ def getAllWallets():
 def getWalletInfo(name):
     try:
         wallet = Wallet(name)
+        print(wallet.get_key().as_dict())
     except Exception as e:
         return "Wallet with " + name + " Does not exist."
-    return "Public Address: " + wallet.get_key().address + " Private Key: " + wallet.get_key().wif
+    return wallet.get_key().as_dict()
 
 def deleteWallet(name):
     try:
@@ -34,11 +35,3 @@ def deleteWallet(name):
     except Exception as e:
         return "Wallet with " + name + " Does not exist."
     return "Wallet with " + name + " has been deleted."
-
-
-def getBalance(name):
-    try:
-        wallet = Wallet(name)
-        return print(f'Wallet Balance: {wallet.balance()} BTC')
-    except Exception as e:
-        return "Wallet with " + name + " Does not exist."
