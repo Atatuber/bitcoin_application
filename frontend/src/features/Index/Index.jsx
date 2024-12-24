@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 
 import { useEffect } from "react";
-import { getHeaderName } from "../common/headername";
+import { getHeaderName } from "../../common/headername";
 import Footer from "./Footer";
 import Header from "./Header";
 

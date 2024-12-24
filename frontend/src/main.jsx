@@ -7,9 +7,9 @@ import {
   Route,
 } from "react-router-dom";
 
-import Index from "./Index/Index";
+import Index from "./features/Index/Index";
 
-import HomePage, { loader as WalletsLoader } from "./pages/HomePage";
+import HomePage, { loader as WalletsLoader } from "./features/Home/HomePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

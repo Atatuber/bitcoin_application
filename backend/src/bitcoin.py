@@ -16,13 +16,7 @@ def getAllWallets():
         if not wallets:
             return "Geen wallets gevonden."
         
-        wallet_info = ""
-        for wallet in wallets:
-            wallet_id = wallet.get('id', 'Onbekend ID')
-            wallet_name = wallet.get('name', 'Onbekende Naam')
-            wallet_network = wallet.get('network', 'Onbekend Netwerk')
-            wallet_info += f"Wallet ID: {wallet_id}, Naam: {wallet_name}, Netwerk: {wallet_network}\n"
-        return wallet_info.strip()
+        return wallets
     except Exception as e:
         return f"Fout bij ophalen van wallets: {e}"
     
