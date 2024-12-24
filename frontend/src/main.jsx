@@ -6,13 +6,16 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
+
+import Index from "./Index/Index";
+
 import HomePage, { loader as WalletsLoader } from "./pages/HomePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
+    <Route path="/" element={<Index />}>
       <Route path="/" element={<HomePage />} loader={WalletsLoader} />
-    </>
+    </Route>
   ),
   {
     future: {
