@@ -6,7 +6,7 @@ export default function Header({ location }) {
   };
 
   return (
-    <header>
+    <header className="bg-white shadow">
       <nav className="bg-white border-gray-200">
         <div className="flex items-center justify-between mx-auto p-4">
           <div className="flex gap-10">
@@ -27,7 +27,7 @@ export default function Header({ location }) {
               className="flex justify-center items-center"
               id="navbar-default"
             >
-              <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+              <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 0 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
                 <li>
                   <a href="#" className={isActive("/")} aria-current="page">
                     Home
@@ -48,7 +48,7 @@ export default function Header({ location }) {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-6"
                 >

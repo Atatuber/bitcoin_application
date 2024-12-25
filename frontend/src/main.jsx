@@ -10,12 +10,16 @@ import {
 import Index from "./features/Index/Index";
 
 import HomePage, { loader as WalletsLoader } from "./features/Home/HomePage";
+import LoginPage from "./features/Login/LoginPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Index />}>
-      <Route path="/" element={<HomePage />} loader={WalletsLoader} />
-    </Route>
+    <>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<Index />}>
+        <Route path="/" element={<HomePage />} loader={WalletsLoader} />
+      </Route>
+    </>
   ),
   {
     future: {

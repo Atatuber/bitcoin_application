@@ -8,6 +8,9 @@ import WalletsSection from "./WalletsSection";
 export async function loader() {
   const wallets = await getAllWallets();
 
+  if (wallets === null) {
+    return { wallets: null };
+  }
   const walletsWithInfo = await Promise.all(
     wallets.map(async (wallet) => {
       const info = await getWalletInfo(wallet.name);

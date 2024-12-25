@@ -75,6 +75,8 @@ Before you begin, ensure you have the following installed on your system:
     pip install flask
     pip install bitcoinlib
     pip install flask-cors
+    pip install flask-bcrypt
+    pip install pyodbc
     ```
 
 5. **Navigate to the Source Directory:**

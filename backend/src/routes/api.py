@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
-from bitcoin import getAllWallets 
-from bitcoin import getWalletInfo
+from services.bitcoin import getAllWallets 
+from services.bitcoin import getWalletInfo
 
 api_bp = Blueprint('api', __name__)
 
