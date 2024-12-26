@@ -1,4 +1,7 @@
-export default function LoginForm() {
+export default function LoginForm({ users }) {
+
+  
+
   return (
     <form className="space-y-4 md:space-y-6" action="#">
       <div>
@@ -44,7 +47,7 @@ export default function LoginForm() {
           </div>
           <div className="ml-3 text-sm">
             <label htmlFor="remember" className="text-gray-500">
-              Herriner mij
+              Herrinner mij
             </label>
           </div>
         </div>

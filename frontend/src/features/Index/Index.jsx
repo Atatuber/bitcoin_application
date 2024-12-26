@@ -11,7 +11,7 @@ export default function Index() {
   useEffect(() => {
     const headerName = getHeaderName(location);
     document.title = "ChainVault ∙ " + headerName;
-  }, [location]);
+  }, []);
 
   return (
     <div className="flex bg-gray-50 flex-col justify-between min-h-screen">

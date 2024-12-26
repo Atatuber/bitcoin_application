@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from services.bitcoin import getAllWallets 
 from services.bitcoin import getWalletInfo
+from database.users import getAllUsers
 
 api_bp = Blueprint('api', __name__)
 
@@ -14,3 +15,9 @@ def returnAllWallets():
 def returnWalletInfo(name):
     wallet = getWalletInfo(name)
     return jsonify(wallet)
+
+
+@api_bp.route('/users', methods=['GET'])
+def returnAllUsers():
+    users = getAllUsers()
+    return jsonify(users)

@@ -9,7 +9,7 @@ export default function WalletsSection({ wallets }) {
             Aanwezige wallets
           </h1>
 
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <WalletTable wallets={wallets} />
           </div>
         </div>
