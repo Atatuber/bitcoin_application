@@ -1,25 +1,52 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { login } from "../../api/auth";
-export default function LoginForm({ users }) {
+
+export default function LoginForm({ setMessageState }) {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const loggedIn = await login(formData);
 
-    console.log(loggedIn);
-  }
+    console.log(loggedIn)
+    if (loggedIn === 200) {
+      navigate("/");
+      setFormData((prev) => ({
+        ...prev,
+        password: "",
+      }));
+    }
+    if (loggedIn === 401) {
+      setMessageState({
+        message: "E-mail of wachtwoord is onjuist.",
+      });
+      setFormData((prev) => ({
+        ...prev,
+        password: "",
+      }));
+    }
+    if (loggedIn === 500) {
+      setMessageState({
+        message: "Er is iets fout gegaan, probeer het later opnieuw.",
+      });
+      setFormData((prev) => ({
+        ...prev,
+        password: "",
+      }));
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
@@ -35,6 +62,7 @@ export default function LoginForm({ users }) {
           name="email"
           onChange={handleChange}
           id="email"
+          value={formData.email}
           className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5"
           placeholder="mijnemail@voorbeeld.nl"
         />
@@ -51,6 +79,7 @@ export default function LoginForm({ users }) {
           name="password"
           onChange={handleChange}
           id="password"
+          value={formData.password}
           placeholder="••••••••"
           className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5"
         />

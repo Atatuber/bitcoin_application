@@ -10,12 +10,12 @@ import {
 import Index from "./features/Index/Index";
 
 import HomePage, { loader as WalletsLoader } from "./features/Home/HomePage";
-import LoginPage, { loader as UsersLoader } from "./features/Login/LoginPage";
+import LoginPage from "./features/Login/LoginPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/login" element={<LoginPage />} loader={UsersLoader} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<Index />}>
         <Route path="/" element={<HomePage />} loader={WalletsLoader} />
       </Route>

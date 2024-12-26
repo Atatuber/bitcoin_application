@@ -1,19 +1,14 @@
-import { useEffect } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-import { getAllUsers } from "../../api/users";
 import { getHeaderName } from "../../common/headername";
-
 import LoginForm from "./LoginForm";
-
-export async function loader() {
-  const users = await getAllUsers();
-
-  return { users };
-}
+import ErrorAlert from "./ErrorAlert";
 
 export default function LoginPage() {
-  const { users } = useLoaderData();
+  const [messageState, setMessageState] = useState({
+    message: "",
+    closed: false,
+  });
 
   useEffect(() => {
     const headerName = getHeaderName(location);
@@ -23,6 +18,7 @@ export default function LoginPage() {
   return (
     <section className="bg-gray-50">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        {messageState.message && !messageState.closed && <ErrorAlert message={messageState.message} setMessageState={setMessageState} />}
         <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
@@ -39,7 +35,7 @@ export default function LoginPage() {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Inloggen
             </h1>
-            <LoginForm users={users} />
+            <LoginForm setMessageState={setMessageState} />
           </div>
         </div>
       </div>
