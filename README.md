@@ -18,6 +18,7 @@ Before you begin, ensure you have the following installed on your system:
 - **npm** (comes with Node.js)
 - **Python** (v3.7 or later)
 - **pip** (comes with Python)
+- **psql** (v15 or later)
 
 ### **Frontend**
 
@@ -76,7 +77,7 @@ Before you begin, ensure you have the following installed on your system:
     pip install bitcoinlib
     pip install flask-cors
     pip install flask-bcrypt
-    pip install pyodbc
+    pip install pandas
     ```
 
 5. **Navigate to the Source Directory:**
