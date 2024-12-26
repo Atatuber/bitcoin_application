@@ -1,9 +1,28 @@
+import { useState } from "react";
+
+import { login } from "../../api/auth";
 export default function LoginForm({ users }) {
 
-  
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const loggedIn = await login(formData);
+
+    console.log(loggedIn);
+  }
 
   return (
-    <form className="space-y-4 md:space-y-6" action="#">
+    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
       <div>
         <label
           htmlFor="email"
@@ -14,6 +33,7 @@ export default function LoginForm({ users }) {
         <input
           type="email"
           name="email"
+          onChange={handleChange}
           id="email"
           className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5"
           placeholder="mijnemail@voorbeeld.nl"
@@ -29,6 +49,7 @@ export default function LoginForm({ users }) {
         <input
           type="password"
           name="password"
+          onChange={handleChange}
           id="password"
           placeholder="••••••••"
           className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5"

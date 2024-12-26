@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getAllWallets() {
   try {
-    const response = await axios.get("http://127.0.0.1:5000/api/wallets");
+    const response = await axios.get("http://127.0.0.1:5000/api/btc/wallets");
     return response.data;
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ export async function getAllWallets() {
 export async function getWalletInfo(name) {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:5000/api/wallets/${name}`
+      `http://127.0.0.1:5000/api/btc/wallets/${name}`
     );
     return response.data;
   } catch (error) {
