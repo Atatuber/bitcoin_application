@@ -1,5 +1,6 @@
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token
+from datetime import timedelta
 
 from database.users import getUserByEmail
 
@@ -15,7 +16,8 @@ def checkPassword(email, given_password):
 
 
         if bcrypt.check_password_hash(user_password_hash, given_password):
-            token = create_access_token(identity=email)
+            expires_delta = timedelta(seconds=60*60*24)
+            token = create_access_token(identity=email, expires_delta=expires_delta)
             return token
         else:
             return None

@@ -1,48 +1,97 @@
-from bitcoinlib.wallets import Wallet, wallet_delete_if_exists as wallet_delete, wallets_list
 from bitcoinlib.mnemonic import Mnemonic
-from database.bitcoin import insertWalletInDB
+from bitcoinlib.keys import HDKey
+from database.bitcoin import (
+    insertWalletInDB,
+    insertKeyInDB,
+    getWalletsById,
+    getKeysById,
+    getWalletById,
+    deleteWalletById,
+    updateBalanceById
+)
 
 def createBitcoinWallet(account_id, name):
-    mnemonic = Mnemonic().generate()
     try:
-        wallet = Wallet.create(name, witness_type="segwit", keys=mnemonic, network="testnet")
+        mnemonic = Mnemonic().generate()
 
         db_wallet = insertWalletInDB(account_id, name, mnemonic, "testnet")
-        
-        if db_wallet is not None:
-            return db_wallet
-        else:
+        if not db_wallet:
             return None
+
+        master_key = HDKey.from_passphrase(mnemonic, network="testnet")
+        path = "m/0" 
+        child_key = master_key.subkey_for_path(path)
+
+        key_public = child_key.public_hex
+        key_private = child_key.wif()
+        address = child_key.address() 
+
+        db_key = insertKeyInDB(
+            wallet_id=db_wallet["wallet_id"],
+            key_public=key_public,
+            key_private=key_private,
+            path=path,
+            address=address,
+            balance=0
+        )
+
+        if not db_key:
+            return None
+
+        return {
+            "wallet": db_wallet,
+            "key": db_key
+        }
+
     except Exception as e:
+        print(f"Error creating wallet: {e}")
         return None
 
-
-def getAllWallets():
+def getWalletsByAccountId(account_id):
     try:
-        wallets = wallets_list()
-        if not wallets:
-            return []
-        
+        wallets = getWalletsById(account_id)
+
+        if wallets is None:
+            return None
+
         return wallets
     except Exception as e:
-        return f"Fout bij ophalen van wallets: {e}"
-    
-def getWalletInfo(name):
+        print(f"Error getting wallets: {e}")
+        return None
+
+def getKeysByWalletId(wallet_id):
     try:
-        wallet = Wallet(name)
-        wallet_info = wallet.as_dict()  
-        key_info = wallet.get_key().as_dict()  
+        keys = getKeysById(wallet_id)
+
+        if keys is None:
+            return None
         
-        return {
-            "wallet_info": wallet_info,
-            "key_info": key_info
-        }
+        return keys
     except Exception as e:
-        return f"Wallet with {name} does not exist or error occurred: {e}"
-        
-def deleteWallet(name):
+        print(f"Error getting keys: {e}")
+        return None
+
+def getWalletByWalletId(wallet_id):
     try:
-        wallet_delete(name)
+        wallet = getWalletById(wallet_id)
+
+        if wallet is None:
+            return None
+
+        return wallet
     except Exception as e:
-        return "Wallet with " + name + " Does not exist."
-    return "Wallet with " + name + " has been deleted."
+        print(f"Error getting wallet: {e}")
+        return None
+
+def updateBalanceByWalletId(wallet_id, balance):
+    try:
+        updateBalance = updateBalanceById(wallet_id, balance)
+
+        if updateBalance is False:
+            return None
+        
+        return True
+    except Exception as e:
+        print(f"Error updating balance: {e}")
+        return None
+

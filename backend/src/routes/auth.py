@@ -1,6 +1,7 @@
 from flask import Blueprint, request, make_response, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from services.auth import checkPassword
+from datetime import datetime, timedelta
 
 auth_bp = Blueprint('/api/auth', __name__)
 
@@ -14,12 +15,14 @@ def login():
             token = checkPassword(email, password)
             if token:
                 response = make_response("200", 200)
+                expires_at = datetime.utcnow() + timedelta(seconds=60*60*24)
                 response.set_cookie(
                     'auth_token',
                     token,
                     httponly=True,
                     secure=True,
-                    samesite='None'
+                    samesite='None',
+                    expires=expires_at.strftime('%a, %d %b %Y %H:%M:%S GMT')
                 )
                 return response
             else:
@@ -45,9 +48,11 @@ def getCookie():
 @auth_bp.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
-    user_email = get_jwt_identity()  
-    return user_email
-
+    try:
+        user_email = get_jwt_identity()
+        return jsonify({"email": user_email}), 200
+    except Exception as e:
+        return jsonify({"error": "Unauthorized"}), 401
 
 @auth_bp.route('/logout', methods=['POST'])
 def logout():

@@ -1,15 +1,18 @@
-from flask import Blueprint, jsonify
-from database.users import getAllUsers, getUserByEmail
+from flask import Blueprint, jsonify, request
+from services.users import getUserDataByEmail
 
 users_bp = Blueprint('/api/users', __name__)
 
-@users_bp.route('', methods=['GET'])
-def returnAllUsers():
-    users = getAllUsers()
-    return jsonify(users)
-
-
 @users_bp.route('/<email>', methods=['GET'])
 def returnUser(email):
-    user = getUserByEmail(email)
-    return jsonify(user)
+    if request.method == "GET":
+        try:
+            user = getUserDataByEmail(email)
+            print(user)
+            if user is not None:
+                return jsonify(user), 200
+            else:
+                return "404", 404
+        except Exception as e:
+            return "500", 500
+        

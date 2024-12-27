@@ -9,8 +9,11 @@ def getAllUsers():
 
 
 def getUserByEmail(email):
-    query = "SELECT account_id, username, email, password_hash, is_active, role FROM accounts WHERE email = %s"
-    df = db.readQuery(query, params=(email,))
-    if df is not None:
+    query = "SELECT account_id, username, email, password_hash, is_active, role FROM accounts WHERE email = :email"
+    params = {
+        "email": email,
+    }
+    df = db.readQuery(query, params)
+    if df is not None and not df.empty:  
         return df.to_dict(orient='records')[0]
-    return None
+    return None  

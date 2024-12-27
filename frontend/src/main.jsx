@@ -9,7 +9,7 @@ import {
 
 import Index from "./features/Index/Index";
 
-import HomePage, { loader as WalletsLoader } from "./features/Home/HomePage";
+import HomePage, { loader as HomeLoader } from "./features/Home/HomePage";
 import LoginPage from "./features/Login/LoginPage";
 import ProtectedRoute from "./features/Auth/ProtectedRoute";
 import AddWalletPage, { loader as UserLoader} from "./features/AddWallet/AddWalletPage";
@@ -20,7 +20,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<Index />}>
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<HomePage />} loader={WalletsLoader} />
+          <Route path="/" element={<HomePage />} loader={HomeLoader} />
           <Route path="/wallets/add" element={<AddWalletPage />} loader={UserLoader} />
         </Route>
       </Route>

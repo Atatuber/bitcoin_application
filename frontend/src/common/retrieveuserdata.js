@@ -2,13 +2,14 @@ import { checkUser } from "../api/auth";
 import { getUserDataByEmailAddress } from "../api/users";
 
 export const getUserData = async () => {
-  const user = await checkUser();
+  const userEmail = await checkUser();
 
-  if (user === null) {
+
+  if (userEmail === null) {
     return null;
   }
 
-  const userData = await getUserDataByEmailAddress(user);
+  const userData = await getUserDataByEmailAddress(userEmail);
 
   return userData;
 };

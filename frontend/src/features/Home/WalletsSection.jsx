@@ -1,6 +1,6 @@
 import WalletTable from "./WalletTable";
 
-export default function WalletsSection({ wallets }) {
+export default function WalletsSection({ wallets, keys }) {
   return (
     <section className="text-gray-600 body-font bg-white rounded-lg shadow-md m-2">
       <div className="container mx-auto my-auto">
@@ -11,7 +11,7 @@ export default function WalletsSection({ wallets }) {
 
           {wallets.length > 0 ? (
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <WalletTable wallets={wallets} />
+              <WalletTable wallets={wallets} keys={keys} />
             </div>
           ) : (
             <p className="text-gray-600 text-md font-medium flex justify-start">

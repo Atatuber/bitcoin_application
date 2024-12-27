@@ -1,49 +1,47 @@
-import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
-import { getAllWallets, getWalletInfo } from "../../api/bitcoin";
 import { getUserData } from "../../common/retrieveuserdata";
-
+import { getUserWalletsById, getUserWalletKeysById } from "../../api/bitcoin";
 import WelcomeSection from "./WelcomeSection";
 import WalletsSection from "./WalletsSection";
 
 export async function loader() {
-  const wallets = await getAllWallets();
+  try {
+    const userData = await getUserData();
+    if (!userData) {
+      return { wallets: null, userData: null, keys: null };
+    }
 
-  console.log(wallets)
-  if (wallets === null) {
-    return { wallets: null };
+    const wallets = await getUserWalletsById(userData.account_id);
+    if (!wallets) {
+      return { wallets: null, userData, keys: null };
+    } else if (wallets.length === 0) {
+      return { wallets: [], userData, keys: [] };
+    }
+
+    const getKeysForWallets = async (wallets) => {
+      try {
+        const keysArray = await Promise.all(
+          wallets.map((wallet) => getUserWalletKeysById(wallet.wallet_id))
+        );
+        return keysArray.flat(); 
+      } catch (error) {
+        console.error("Error fetching keys for wallets:", error);
+        return [];
+      }
+    };
+
+    const keys = await getKeysForWallets(wallets);
+
+    return { wallets, userData, keys };
+  } catch (error) {
+    return { wallets: null, userData: null, keys: null };
   }
-  const walletsWithInfo = await Promise.all(
-    wallets.map(async (wallet) => {
-      const info = await getWalletInfo(wallet.name);
-      return { ...wallet, info };
-    }),
-  );
-
-  return { wallets: walletsWithInfo };
 }
 
 export default function HomePage() {
-  const { wallets } = useLoaderData();
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setIsLoading(true);
-      const data = await getUserData();
-      setUserData(data);
-      setIsLoading(false);
-    };
+  const { wallets, userData, keys } = useLoaderData();
   
-    fetchUserData();
-  }, []);
-  
-  if (isLoading) {
-    return <p>Laden...</p>;
-  }
-
   if (wallets === null) {
     return (
       <div>
@@ -60,7 +58,7 @@ export default function HomePage() {
   return (
     <div className="grid grid-cols-2 gap-4 p-4">
       <WelcomeSection username={userData.username} />
-      <WalletsSection wallets={wallets} />
+      <WalletsSection wallets={wallets} keys={keys} />
     </div>
   );
 }

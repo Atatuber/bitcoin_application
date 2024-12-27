@@ -1,6 +1,6 @@
 import WalletItem from "./WalletItem";
 
-export default function WalletTable({ wallets }) {
+export default function WalletTable({ wallets, keys }) {
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -18,7 +18,12 @@ export default function WalletTable({ wallets }) {
       </thead>
       <tbody>
         {wallets.map((wallet, index) => {
-          return <WalletItem key={index} wallet={wallet} />;
+          const walletKey = keys.find(
+            (key) => key.wallet_id === wallet.wallet_id
+          );
+          return (
+            <WalletItem key={index} wallet={wallet} walletKey={walletKey} />
+          );
         })}
       </tbody>
     </table>

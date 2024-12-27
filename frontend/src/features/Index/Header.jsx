@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../../api/auth";
 
 export default function Header({ location }) {
@@ -25,8 +25,8 @@ export default function Header({ location }) {
       <nav className="bg-white border-gray-200">
         <div className="flex items-center justify-between mx-auto p-4">
           <div className="flex gap-10">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="flex items-center space-x-3 rtl:space-x-reverse"
             >
               <img
@@ -37,21 +37,21 @@ export default function Header({ location }) {
               <span className="self-center text-2xl font-semibold whitespace-nowrap">
                 ChainVault
               </span>
-            </a>
+            </Link>
             <div
               className="flex justify-center items-center"
               id="navbar-default"
             >
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 0 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
                 <li>
-                  <a href="/" className={isActive("/")} aria-current="page">
+                  <Link to="/" className={isActive("/")} aria-current="page">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/wallets/add" className={isActive("/wallets/add")}>
+                  <Link to="/wallets/add" className={isActive("/wallets/add")}>
                     Wallet toevoegen
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

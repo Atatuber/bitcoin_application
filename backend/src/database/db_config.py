@@ -24,7 +24,7 @@ class DBConfig:
     def readQuery(self, query, params=None):
         try:
             with self.engine.connect() as connection:
-                df = pd.read_sql(query, connection, params=params)
+                df = pd.read_sql(text(query), connection, params=params)
                 return df
         except Exception as e:
             print(f"Error reading data: {e}")

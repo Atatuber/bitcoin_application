@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { getUserData } from "../../common/retrieveuserdata";
 import AddWalletForm from "./AddWalletForm";
+import ErrorAlert from "../Common/ErrorAlert";
 
 export async function loader() {
   const userData = await getUserData();
@@ -10,8 +12,16 @@ export async function loader() {
 export default function AddWalletPage() {
   const { userData } = useLoaderData();
 
+  const [messageState, setMessageState] = useState({ message: "", closed: "" });
+
   return (
-    <section className="flex items-center justify-center bg-gray-50">
+    <section className="flex flex-col items-center justify-center bg-gray-50">
+      {messageState.message && !messageState.closed && (
+        <ErrorAlert
+          message={messageState.message}
+          setMessageState={setMessageState}
+        />
+      )}
       <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
         <div className="p-6 space-y-4 md:space-y-4 sm:p-8">
           <div>
@@ -22,7 +32,10 @@ export default function AddWalletPage() {
               Voeg een nieuwe wallet toe aan je account.
             </p>
           </div>
-          <AddWalletForm accountId={userData.account_id} />
+          <AddWalletForm
+            accountId={userData.account_id}
+            setMessageState={setMessageState}
+          />
         </div>
       </div>
     </section>

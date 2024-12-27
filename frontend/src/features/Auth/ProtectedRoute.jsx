@@ -10,9 +10,10 @@ export default function ProtectedRoute() {
   useEffect(() => {
     const verifyAuth = async () => {
       const user = await checkUser();
-      if (user) {
+      if (user && user !== null) {
         setIsAuthenticated(true);
-      } else {
+      } 
+      if(user === null) {
         setIsAuthenticated(false);
         navigate("/login", { replace: true });
       }

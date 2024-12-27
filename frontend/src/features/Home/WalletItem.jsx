@@ -1,4 +1,4 @@
-export default function WalletItem({ wallet }) {
+export default function WalletItem({ wallet, walletKey }) {
   return (
     <tr className="bg-white border-b hover:bg-gray-50">
       <th
@@ -7,8 +7,8 @@ export default function WalletItem({ wallet }) {
       >
         {wallet.name}
       </th>
-      <td className="px-6 py-4">{wallet.info.address}</td>
-      <td className="px-6 py-4">{wallet.info.balance} BTC</td>
+      <td className="px-6 py-4">{walletKey.address}</td>
+      <td className="px-6 py-4">{walletKey.balance} BTC</td>
     </tr>
   );
 }

@@ -5,7 +5,7 @@ import { getHeaderName } from "../../common/headername";
 import { getCookie } from "../../api/auth";
 
 import LoginForm from "./LoginForm";
-import ErrorAlert from "./ErrorAlert";
+import ErrorAlert from "../Common/ErrorAlert";
 
 export default function LoginPage() {
   const [messageState, setMessageState] = useState({

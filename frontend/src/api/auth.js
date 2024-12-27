@@ -20,6 +20,7 @@ export async function getCookie() {
     const response = await axios.get("http://127.0.0.1:5000/api/auth/cookie", {
       withCredentials: true,
     });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     return null;
@@ -36,7 +37,7 @@ export async function checkUser() {
     );
 
     if (response.status === 200) {
-      return response.data;
+      return response.data.email; 
     } else {
       console.error("User is not authenticated");
       return null;
