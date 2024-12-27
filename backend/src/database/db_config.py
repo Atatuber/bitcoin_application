@@ -1,5 +1,5 @@
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 import os
 
 class DBConfig:
@@ -29,5 +29,25 @@ class DBConfig:
         except Exception as e:
             print(f"Error reading data: {e}")
             return None
+        
+    def insertQuery(self, query, params=None):
+        try:
+            with self.engine.connect() as connection:
+                transaction = connection.begin()
+                try:
+                    result = connection.execute(text(query), params)
+                    transaction.commit()
+                    if result.returns_rows:
+                        df = pd.DataFrame(result.fetchall(), columns=result.keys())
+                        return df
+                    return None
+                except Exception as e:
+                    transaction.rollback()
+                    raise e
+        except Exception as e:
+            print(f"Error executing INSERT query: {e}")
+            return None
+
+
 
 db = DBConfig()

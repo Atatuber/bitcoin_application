@@ -83,30 +83,12 @@ export default function LoginForm({ setMessageState }) {
           className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5"
         />
       </div>
-      <div className="flex items-center justify-between">
-        <div className="flex items-start">
-          <div className="flex items-center h-5">
-            <input
-              id="remember"
-              aria-describedby="remember"
-              type="checkbox"
-              className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-indigo-300"
-              required=""
-            />
-          </div>
-          <div className="ml-3 text-sm">
-            <label htmlFor="remember" className="text-gray-500">
-              Herrinner mij
-            </label>
-          </div>
-        </div>
         <a
           href="#"
-          className="text-sm font-medium text-indigo-600 hover:underline"
+          className="flex text-sm font-medium text-indigo-600 hover:underline"
         >
           Wachtwoord vergeten?
         </a>
-      </div>
       <button
         type="submit"
         className="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

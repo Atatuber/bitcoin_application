@@ -9,9 +9,15 @@ export default function WalletsSection({ wallets }) {
             Aanwezige wallets
           </h1>
 
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <WalletTable wallets={wallets} />
-          </div>
+          {wallets.length > 0 ? (
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <WalletTable wallets={wallets} />
+            </div>
+          ) : (
+            <p className="text-gray-600 text-md font-medium flex justify-start">
+              Er zijn geen wallets gevonden.
+            </p>
+          )}
         </div>
       </div>
     </section>

@@ -10,6 +10,7 @@ import WalletsSection from "./WalletsSection";
 export async function loader() {
   const wallets = await getAllWallets();
 
+  console.log(wallets)
   if (wallets === null) {
     return { wallets: null };
   }
@@ -43,7 +44,6 @@ export default function HomePage() {
     return <p>Laden...</p>;
   }
 
-  console.log(userData)
   if (wallets === null) {
     return (
       <div>

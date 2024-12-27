@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS wallets;
 
 CREATE TABLE accounts (
     account_id SERIAL PRIMARY KEY,           
@@ -9,4 +10,33 @@ CREATE TABLE accounts (
     updated_at TIMESTAMP NULL,                  
     is_active BOOLEAN NOT NULL DEFAULT TRUE,   
     role VARCHAR(20) NOT NULL DEFAULT 'User'
+);
+
+
+CREATE TABLE wallets (
+    wallet_id SERIAL PRIMARY KEY,
+    account_id SERIAL NOT NULL REFERENCES accounts(account_id) ON DELETE CASCADE,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    mnemonic TEXT NOT NULL,
+    network VARCHAR(50) DEFAULT 'testnet',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+CREATE TABLE keys (
+    key_id SERIAL PRIMARY KEY,
+    wallet_id INT REFERENCES wallets(wallet_id) ON DELETE CASCADE,
+    key_public TEXT NOT NULL,
+    key_private TEXT NOT NULL,
+    path TEXT NOT NULL,
+    address VARCHAR(255) UNIQUE NOT NULL,
+    balance NUMERIC DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE transactions (
+    transaction_id SERIAL PRIMARY KEY,
+    wallet_id INT REFERENCES wallets(wallet_id) ON DELETE CASCADE,
+    txid TEXT NOT NULL,
+    amount NUMERIC,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
