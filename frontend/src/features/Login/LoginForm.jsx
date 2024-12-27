@@ -20,7 +20,6 @@ export default function LoginForm({ setMessageState }) {
 
     const loggedIn = await login(formData);
 
-    console.log(loggedIn)
     if (loggedIn === 200) {
       navigate("/");
       setFormData((prev) => ({

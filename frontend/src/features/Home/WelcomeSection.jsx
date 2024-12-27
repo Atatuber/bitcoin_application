@@ -1,4 +1,4 @@
-export default function WelcomeSection({username}) {
+export default function WelcomeSection({ username }) {
   return (
     <section className="text-gray-600 body-font bg-white rounded-lg shadow-md m-2 flex justify-center items-center">
       <div className="container mx-auto my-auto text-left">

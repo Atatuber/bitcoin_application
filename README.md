@@ -77,6 +77,7 @@ Before you begin, ensure you have the following installed on your system:
     pip install bitcoinlib
     pip install flask-cors
     pip install flask-bcrypt
+    pip install flask-jwt-extended
     pip install pandas
     ```
 

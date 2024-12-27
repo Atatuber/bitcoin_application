@@ -1,8 +1,23 @@
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../api/auth";
+
 export default function Header({ location }) {
   const isActive = (url) => {
     return location.pathname === url
       ? "block py-2 px-3 text-white md:text-indigo-600 hover:text-indigo-800 md:p-1"
       : "block py-2 px-3 text-gray-900 md:hover:text-indigo-800 md:p-1";
+  };
+
+  const navigate = useNavigate();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+
+    const response = await logout();
+
+    if (response) {
+      navigate("/login", { replace: true });
+    }
   };
 
   return (
@@ -43,7 +58,10 @@ export default function Header({ location }) {
           </div>
           <div className="flex flex-row justify-between items-center">
             <div className="flex space-x-2">
-              <button className="flex justify-center items-center text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 text-center gap-2">
+              <button
+                onClick={handleLogout}
+                className="flex justify-center items-center text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 text-center gap-2"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
