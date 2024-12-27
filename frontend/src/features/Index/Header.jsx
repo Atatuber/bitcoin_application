@@ -44,12 +44,12 @@ export default function Header({ location }) {
             >
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 0 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
                 <li>
-                  <a href="#" className={isActive("/")} aria-current="page">
+                  <a href="/" className={isActive("/")} aria-current="page">
                     Home
                   </a>
                 </li>
                 <li>
-                  <a href="#" className={isActive("/wallets")}>
+                  <a href="/wallets/add" className={isActive("/wallets/add")}>
                     Wallet toevoegen
                   </a>
                 </li>
