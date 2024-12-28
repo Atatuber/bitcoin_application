@@ -86,12 +86,12 @@ def deleteWalletById(wallet_id):
     db.insertQuery(query, params)
     return True
 
-def updateBalanceById(wallet_id, new_balance):
+def insertNewBalance(address, new_balance):
     try:
-        query = "UPDATE keys SET balance = :new_balance WHERE wallet_id = :wallet_id"
+        query = "UPDATE keys SET balance = :new_balance WHERE address = :address"
         params = {
-        "wallet_id": wallet_id,
         "new_balance": new_balance,
+        "address": address,
         }
         db.insertQuery(query, params)
         return True

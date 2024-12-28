@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, make_response
-from services.bitcoin import createBitcoinWallet, getWalletsByAccountId, getKeysByWalletId, getWalletByWalletId, updateBalanceByWalletId
+from services.bitcoin import createBitcoinWallet, getWalletsByAccountId, getKeysByWalletId, getWalletByWalletId, updateBalanceByAddress
 
 btc_bp = Blueprint('api/btc', __name__)
 
@@ -60,13 +60,12 @@ def returnWalletByWalletId(wallet_id):
         except Exception as e:
             return "500", 500
 
-@btc_bp.route('/wallets/<wallet_id>', methods=['PUT'])
-def returnWalletWithUpdatedBalance(wallet_id):
+@btc_bp.route('/wallets/<address>', methods=['PUT'])
+def returnAddressWithUpdatedBalance(address):
     if request.method == "PUT":
         try:
-            new_balance = request.json.get('new_balance')
-            print(new_balance)
-            wallet = updateBalanceByWalletId(wallet_id, new_balance)
+            print(address)
+            wallet = updateBalanceByAddress(address)
             if wallet is not None:
                 return "200", 200
             else:

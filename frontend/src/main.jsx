@@ -13,6 +13,7 @@ import HomePage, { loader as HomeLoader } from "./features/Home/HomePage";
 import LoginPage from "./features/Login/LoginPage";
 import ProtectedRoute from "./features/Auth/ProtectedRoute";
 import AddWalletPage, { loader as UserLoader} from "./features/AddWallet/AddWalletPage";
+import WalletDetailPage, { loader as WalletLoader } from "./features/WalletDetail/WalletDetailPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<HomePage />} loader={HomeLoader} />
           <Route path="/wallets/add" element={<AddWalletPage />} loader={UserLoader} />
+          <Route path="/wallets/:id" element={<WalletDetailPage /> } loader={WalletLoader} />
         </Route>
       </Route>
     </>,

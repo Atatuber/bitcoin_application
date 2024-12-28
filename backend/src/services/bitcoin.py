@@ -1,14 +1,45 @@
+import requests
 from bitcoinlib.mnemonic import Mnemonic
 from bitcoinlib.keys import HDKey
 from database.bitcoin import (
     insertWalletInDB,
     insertKeyInDB,
+    insertNewBalance,
     getWalletsById,
     getKeysById,
     getWalletById,
     deleteWalletById,
-    updateBalanceById
 )
+
+def getAddressBalance(address):
+    try:
+        url = f"https://mempool.space/testnet4/api/address/{address}" 
+        response = requests.get(url)
+
+        if response.status_code != 200:
+            print(f"HTTP Error: {response.status_code} - {response.text}")
+            return None
+
+        data = response.json()
+
+        confirmed_balance = data['chain_stats']['funded_txo_sum'] - data['chain_stats']['spent_txo_sum']
+        unconfirmed_balance = data['mempool_stats']['funded_txo_sum'] - data['mempool_stats']['spent_txo_sum']
+
+        total_balance_satoshis = confirmed_balance + unconfirmed_balance
+        total_balance_btc = total_balance_satoshis / 1e8  
+
+        return total_balance_btc
+
+    except requests.exceptions.RequestException as req_err:
+        print(f"Request error: {req_err}")
+        return None
+    except KeyError as key_err:
+        print(f"Key error: Missing key {key_err}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return None
+
 
 def createBitcoinWallet(account_id, name):
     try:
@@ -83,9 +114,10 @@ def getWalletByWalletId(wallet_id):
         print(f"Error getting wallet: {e}")
         return None
 
-def updateBalanceByWalletId(wallet_id, balance):
+def updateBalanceByAddress(address):
     try:
-        updateBalance = updateBalanceById(wallet_id, balance)
+        new_balance = getAddressBalance(address) 
+        updateBalance = insertNewBalance(address, new_balance)
 
         if updateBalance is False:
             return None

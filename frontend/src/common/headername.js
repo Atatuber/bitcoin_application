@@ -3,7 +3,7 @@ export const getHeaderName = (location) => {
   switch (path) {
     case "/":
       return "Home";
-    case "/wallets":
+    case "/wallets/add":
       return "Wallet toevoegen";
     case "/login":
       return "Inloggen";
