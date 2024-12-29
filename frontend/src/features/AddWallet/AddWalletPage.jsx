@@ -23,7 +23,7 @@ export default function AddWalletPage() {
         />
       )}
       <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-        <div className="p-6 space-y-4 md:space-y-4 sm:p-8">
+        <div className="space-y-4 md:space-y-4 sm:p-6">
           <div>
             <h1 className="text-xl text-left font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Wallet toevoegen

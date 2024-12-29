@@ -84,11 +84,10 @@ def returnBitcoinTransaction():
 
             transaction = makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee)
             
-            print(transaction)
             if transaction is not None:
-                return "200", 200
+                return transaction
             else:
-                return "404", 404
+                return "422", 422
         except Exception as e:
             return "500", 500
 

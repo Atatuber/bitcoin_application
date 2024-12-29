@@ -14,6 +14,7 @@ import LoginPage from "./features/Login/LoginPage";
 import ProtectedRoute from "./features/Auth/ProtectedRoute";
 import AddWalletPage, { loader as UserLoader} from "./features/AddWallet/AddWalletPage";
 import WalletDetailPage, { loader as WalletLoader } from "./features/WalletDetail/WalletDetailPage";
+import TransactionPage, { loader as Wallet2Loader} from "./features/Transaction/TransactionPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
           <Route path="/" element={<HomePage />} loader={HomeLoader} />
           <Route path="/wallets/add" element={<AddWalletPage />} loader={UserLoader} />
           <Route path="/wallets/:id" element={<WalletDetailPage /> } loader={WalletLoader} />
+          <Route path="/transaction" element={ <TransactionPage />} loader={Wallet2Loader} />
         </Route>
       </Route>
     </>,

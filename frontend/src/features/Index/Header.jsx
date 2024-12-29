@@ -53,6 +53,11 @@ export default function Header({ location }) {
                     Wallet toevoegen
                   </Link>
                 </li>
+                <li>
+                  <Link to="/transaction" className={isActive("/transaction")}>
+                    Transactie maken
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>

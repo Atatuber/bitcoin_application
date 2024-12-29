@@ -58,7 +58,7 @@ export default function HomePage() {
   return (
     <div className="grid grid-cols-2 gap-4 p-4">
       <WelcomeSection username={userData.username} />
-      <WalletsSection wallets={wallets} keys={keys} />
+      <WalletsSection wallets={wallets} keys={keys} headerMsg={"Beschikbare wallets"} />
     </div>
   );
 }

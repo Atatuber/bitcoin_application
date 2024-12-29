@@ -22,6 +22,7 @@ def broadcastTransaction(tx_hex):
 def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee):
     mnemonic = getWalletByAddress(sender_address)['mnemonic']
     wallet_id = getWalletByAddress(sender_address)['wallet_id']
+
     master_key = HDKey.from_passphrase(mnemonic, network="testnet")
     child_key = master_key.subkey_for_path("m/0")
     derived_address = child_key.address()
