@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request, make_response
-from services.bitcoin import createBitcoinWallet, getWalletsByAccountId, getKeysByWalletId, getWalletByWalletId, updateBalanceByAddress
+from flask import Blueprint, jsonify, request
+from services.bitcoin_service import createBitcoinWallet, getWalletsByAccountId, getKeysByWalletId, getWalletByWalletId, updateBalanceByAddress
+from services.transaction import makeBitcoinTransaction
 
 btc_bp = Blueprint('api/btc', __name__)
 
@@ -64,7 +65,6 @@ def returnWalletByWalletId(wallet_id):
 def returnAddressWithUpdatedBalance(address):
     if request.method == "PUT":
         try:
-            print(address)
             wallet = updateBalanceByAddress(address)
             if wallet is not None:
                 return "200", 200
@@ -72,3 +72,24 @@ def returnAddressWithUpdatedBalance(address):
                 return "404", 404
         except Exception as e:
             return "500", 500
+        
+@btc_bp.route('/transaction', methods=['POST'])
+def returnBitcoinTransaction():
+    if request.method == "POST":
+        try:
+            sender_address = request.json.get("sender_address")
+            recipient_address = request.json.get("recipient_address")
+            amount_to_send = request.json.get("amount_to_send")
+            fee = request.json.get("fee")
+
+            transaction = makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee)
+            
+            print(transaction)
+            if transaction is not None:
+                return "200", 200
+            else:
+                return "404", 404
+        except Exception as e:
+            return "500", 500
+
+            

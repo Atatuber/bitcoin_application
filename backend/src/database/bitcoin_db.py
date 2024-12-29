@@ -29,6 +29,18 @@ def getWalletById(wallet_id):
         return df.to_dict(orient='records')[0]
     return None
 
+def getWalletByAddress(address):
+    query = """
+    SELECT w.wallet_id, w.mnemonic FROM wallets w INNER JOIN keys k ON w.wallet_id = k.wallet_id WHERE k.address = :address
+    """
+    params = {
+        "address": address
+    }
+    df = db.readQuery(query, params)
+    if df is not None and not df.empty:
+        return df.to_dict(orient='records')[0]
+    return None
+
 def getKeysById(wallet_id):
     query = """
     SELECT key_id, wallet_id, key_public, key_private, path, address, balance, created_at
@@ -97,3 +109,17 @@ def insertNewBalance(address, new_balance):
         return True
     except Exception as e:
         return False
+
+def storeTransaction(wallet_id, txid, amount_to_send):
+    try:
+        query = "INSERT INTO transactions (wallet_id, txid, amount) VALUES(:wallet_id, :txid, :amount)"
+        params = {
+            "wallet_id": wallet_id,
+            "txid": txid,
+            "amount": amount_to_send
+        }
+        db.insertQuery(query, params)
+        return True
+    except Exception as e:
+        return False
+

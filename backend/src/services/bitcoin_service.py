@@ -1,14 +1,13 @@
 import requests
 from bitcoinlib.mnemonic import Mnemonic
 from bitcoinlib.keys import HDKey
-from database.bitcoin import (
+from database.bitcoin_db import (
     insertWalletInDB,
     insertKeyInDB,
     insertNewBalance,
     getWalletsById,
     getKeysById,
     getWalletById,
-    deleteWalletById,
 )
 
 def getAddressBalance(address):
