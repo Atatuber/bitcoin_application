@@ -12,9 +12,12 @@ import Index from "./features/Index/Index";
 import HomePage, { loader as HomeLoader } from "./features/Home/HomePage";
 import LoginPage from "./features/Login/LoginPage";
 import ProtectedRoute from "./features/Auth/ProtectedRoute";
-import AddWalletPage, { loader as UserLoader} from "./features/AddWallet/AddWalletPage";
-import WalletDetailPage, { loader as WalletLoader } from "./features/WalletDetail/WalletDetailPage";
-import TransactionPage, { loader as Wallet2Loader} from "./features/Transaction/TransactionPage";
+import AddWalletPage, {
+  loader as UserLoader,
+} from "./features/AddWallet/AddWalletPage";
+import TransactionPage, {
+  loader as Wallet2Loader,
+} from "./features/Transaction/TransactionPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,12 +26,19 @@ const router = createBrowserRouter(
       <Route path="/" element={<Index />}>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<HomePage />} loader={HomeLoader} />
-          <Route path="/wallets/add" element={<AddWalletPage />} loader={UserLoader} />
-          <Route path="/wallets/:id" element={<WalletDetailPage /> } loader={WalletLoader} />
-          <Route path="/transaction" element={ <TransactionPage />} loader={Wallet2Loader} />
+          <Route
+            path="/wallets/add"
+            element={<AddWalletPage />}
+            loader={UserLoader}
+          />
+          <Route
+            path="/transaction"
+            element={<TransactionPage />}
+            loader={Wallet2Loader}
+          />
         </Route>
       </Route>
-    </>,
+    </>
   ),
   {
     future: {
@@ -39,11 +49,11 @@ const router = createBrowserRouter(
       v7_partialHydration: true,
       v7_skipActionErrorRevalidation: true,
     },
-  },
+  }
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

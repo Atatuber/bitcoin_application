@@ -25,3 +25,19 @@ export function formatMessage({ address, amount, fee, role }) {
   }
   return null;
 }
+
+export const calculateFee = (amount) => {
+  const minimumFee = 0.00001;
+  const maximumFee = 0.001;
+  const feePercentage = 0.001;
+
+  let fee = amount * feePercentage;
+
+  if (fee < minimumFee) {
+    fee = minimumFee;
+  } else if (fee > maximumFee) {
+    fee = maximumFee;
+  }
+
+  return fee;
+};

@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { hasErrors } from "../../common/common";
+import { calculateFee } from "../../common/common";
 import { sendTransaction } from "../../api/transaction";
 
 export default function TransactionForm({ setMessageState, setSummaryData }) {
@@ -19,6 +21,8 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
 
   const testnet4AddressRegex =
     /^(tb1[qp][02-9ac-hj-np-z]{38,59}|[mn][1-9A-HJ-NP-Za-km-z]{25,34}|2[1-9A-HJ-NP-Za-km-z]{25,34})$/;
+
+  const calculatedFee = calculateFee(formData.amount_to_spend);
 
   const validateField = (fieldName, value) => {
     if (fieldName === "sender_address" && value === "") {
@@ -49,6 +53,12 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
       if (isNaN(value) || value <= 0) {
         return "Transactiekosten moet een positieve getal zijn.";
       }
+    }
+
+    if (fieldName === "fee" && value < calculatedFee) {
+      return `De ingevulde transactiekosten zijn te laag. De transactiekosten moeten minimaal ${
+        calculatedFee - value
+      } zijn.`;
     }
 
     return "";
@@ -85,7 +95,7 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
         sendingData.fee
       );
 
-      if (isTransactionSend) {
+      if (isTransactionSend !== 422 && isTransactionSend !== 500) {
         const linkToTransaction = `https://mempool.space/testnet4/tx/${isTransactionSend}`;
         setMessageState({
           message: (
@@ -120,8 +130,6 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
         });
 
         setFormData({
-          sender_address: "",
-          recipient_address: "",
           amount_to_spend: "",
           fee: "",
         });
@@ -143,7 +151,7 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
       setSummaryData({});
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>

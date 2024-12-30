@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 import { checkUser } from "../../api/auth";
 import { getUserData } from "../../common/retrieveuserdata";
-import { updateWalletBalances } from "../../common/updatebalance";
 
 export default function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -36,15 +35,7 @@ export default function ProtectedRoute() {
         return null;
       }
     };
-
-    const initialize = async () => {
-      const userData = await authenticateUser();
-      if (userData) {
-        await updateWalletBalances(userData.account_id);
-      }
-    };
-
-    initialize();
+    authenticateUser();
   }, [navigate]);
 
   if (isAuthenticated === null) {

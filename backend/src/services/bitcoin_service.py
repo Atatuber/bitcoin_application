@@ -5,8 +5,7 @@ from database.bitcoin_db import (
     insertWalletInDB,
     insertKeyInDB,
     insertNewBalance,
-    getWalletsById,
-    getKeysById,
+    getWalletsAndKeysById,
     getWalletById,
 )
 
@@ -38,8 +37,7 @@ def getAddressBalance(address):
     except Exception as e:
         print(f"Unexpected error: {e}")
         return None
-
-
+    
 def createBitcoinWallet(account_id, name):
     try:
         mnemonic = Mnemonic().generate()
@@ -77,28 +75,47 @@ def createBitcoinWallet(account_id, name):
         print(f"Error creating wallet: {e}")
         return None
 
-def getWalletsByAccountId(account_id):
+def updateWalletBalanceWithAccountId(account_id):
     try:
-        wallets = getWalletsById(account_id)
+        wallets_and_keys = getWalletsAndKeysById(account_id)
+        key_addresses = [entry['key_address'] for entry in wallets_and_keys] 
 
-        if wallets is None:
-            return None
+        if not key_addresses:
+            print(f"No addresses found for account_id: {account_id}")
+            return False
 
-        return wallets
+        for address in key_addresses:
+            new_balance = getAddressBalance(address)  
+            if new_balance is None:
+                print(f"Failed to fetch balance for address: {address}")
+                continue  
+            
+            update_success = insertNewBalance(address, new_balance)
+            if not update_success:
+                print(f"Failed to update balance for address: {address}")
+        
+        return True
+
     except Exception as e:
-        print(f"Error getting wallets: {e}")
+        print(f"Error updating balances: {e}")
         return None
 
-def getKeysByWalletId(wallet_id):
-    try:
-        keys = getKeysById(wallet_id)
 
-        if keys is None:
+def getWalletsAndKeysByAccountId(account_id):
+    try:
+        updated_wallet_balance = updateWalletBalanceWithAccountId(account_id)
+
+        if updated_wallet_balance is not True:
+            return None
+    
+        wallet_and_keys = getWalletsAndKeysById(account_id)
+
+        if wallet_and_keys is None:
             return None
         
-        return keys
+        return wallet_and_keys
     except Exception as e:
-        print(f"Error getting keys: {e}")
+        print("Error returing wallet with keys " + e)
         return None
 
 def getWalletByWalletId(wallet_id):
@@ -111,18 +128,5 @@ def getWalletByWalletId(wallet_id):
         return wallet
     except Exception as e:
         print(f"Error getting wallet: {e}")
-        return None
-
-def updateBalanceByAddress(address):
-    try:
-        new_balance = getAddressBalance(address) 
-        updateBalance = insertNewBalance(address, new_balance)
-
-        if updateBalance is False:
-            return None
-        
-        return True
-    except Exception as e:
-        print(f"Error updating balance: {e}")
         return None
 

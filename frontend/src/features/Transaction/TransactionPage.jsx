@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 import { getUserData } from "../../common/retrieveuserdata";
-import { getUserWalletsById, getUserWalletKeysById } from "../../api/bitcoin";
+import { getUserWalletsAndKeysById } from "../../api/bitcoin";
 import { formatMessage } from "../../common/common";
 
 import TransactionForm from "./TransactionForm";
@@ -14,22 +14,17 @@ import SuccessAlert from "../Common/SuccessAlert";
 export async function loader() {
   try {
     const userData = await getUserData();
-    const wallets = userData
-      ? await getUserWalletsById(userData.account_id)
-      : [];
-    const keys = wallets
-      ? await Promise.all(
-          wallets.map((w) => getUserWalletKeysById(w.wallet_id))
-        )
-      : [];
-    return { wallets, keys };
+    const wallets = await getUserWalletsAndKeysById(userData.account_id);
+
+    return { wallets };
   } catch {
-    return { wallets: [], keys: [] };
+    return { wallets: [] };
   }
 }
 
 export default function TransactionPage() {
-  const { wallets, keys } = useLoaderData();
+  const { wallets } = useLoaderData();
+
   const [messageState, setMessageState] = useState({
     message: "",
     type: "",
@@ -96,7 +91,7 @@ export default function TransactionPage() {
               </p>
               {wallets.length > 0 ? (
                 <div className="overflow-x-auto shadow-md rounded-lg">
-                  <WalletTable wallets={wallets} keys={keys} />
+                  <WalletTable wallets={wallets} />
                 </div>
               ) : (
                 <p className="text-gray-600 text-md font-medium">

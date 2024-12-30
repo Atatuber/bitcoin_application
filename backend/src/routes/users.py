@@ -8,7 +8,6 @@ def returnUser(email):
     if request.method == "GET":
         try:
             user = getUserDataByEmail(email)
-            print(user)
             if user is not None:
                 return jsonify(user), 200
             else:
