@@ -7,6 +7,8 @@ export const getHeaderName = (location) => {
       return "Wallet toevoegen";
     case "/login":
       return "Inloggen";
+    case "/transaction":
+      return "Transactie maken"
     default:
       return "ChainVault";
   }
