@@ -19,12 +19,13 @@ export async function loader() {
 
     return { userData, wallets, transactions };
   } catch {
-    return { wallets: [], transactions: [] };
+    return { userData, wallets: [], transactions: [] };
   }
 }
 
 export default function HomePage() {
   const { userData, wallets, transactions } = useLoaderData();
+  console.log(wallets)
 
   if (wallets === null) {
     return (

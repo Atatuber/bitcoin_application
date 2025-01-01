@@ -9,7 +9,7 @@ export async function sendTransaction(
 ) {
   try {
     const response = await axios.post(
-      "http://127.0.0.1:5000/api/btc/transaction",
+      "http://127.0.0.1:5000/api/btc/transactions",
       { sender_address, recipient_address, amount_to_send, fee, account_id },
       { withCredentials: true }
     );
@@ -22,7 +22,7 @@ export async function sendTransaction(
 export async function getTransactionsConnectedToAccount(account_id) {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:5000/api/btc/transaction/${account_id}`,
+      `http://127.0.0.1:5000/api/btc/transactions/${account_id}`,
       { withCredentials: true }
     );
     return response.data;

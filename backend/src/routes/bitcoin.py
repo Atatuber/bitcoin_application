@@ -53,7 +53,7 @@ def returnWalletByWalletId(wallet_id):
         except Exception as e:
             return "500", 500
         
-@btc_bp.route('/transaction', methods=['POST'])
+@btc_bp.route('/transactions', methods=['POST'])
 def returnBitcoinTransaction():
     try:
         required_fields = ["sender_address", "recipient_address", "amount_to_send", "fee", "account_id"]
@@ -79,7 +79,7 @@ def returnBitcoinTransaction():
     except Exception as e:
         return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
             
-@btc_bp.route("/transaction/<account_id>", methods=['GET'])
+@btc_bp.route("/transactions/<account_id>", methods=['GET'])
 def returnTransactionsConnectedToAccount(account_id):
     if request.method == "GET":
         try:

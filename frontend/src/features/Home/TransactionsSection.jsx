@@ -1,7 +1,8 @@
 import TransactionTable from "./TransactionTable";
 
 export default function TransactionsSection({ transactions }) {
-  const latestTransactions = transactions.slice(0, 2)
+  const hasTransactions = transactions !== null && transactions.length > 0;
+
   return (
     <section className="text-gray-600 body-font bg-white rounded-lg shadow-md m-2 flex justify-center items-center">
       <div className="container mx-auto my-auto text-left">
@@ -12,7 +13,7 @@ export default function TransactionsSection({ transactions }) {
           <p className="text-gray-600 text-base mb-4">
             Bekijk hier de meest recente transacties.
           </p>
-          {transactions.length > 0 ? (
+          {hasTransactions ? (
             <div className="overflow-x-auto shadow-md rounded-lg">
               <TransactionTable transactions={transactions} />
             </div>
