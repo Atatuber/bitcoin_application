@@ -5,7 +5,7 @@ import { calculateFee } from "../../common/common";
 import { sendTransaction } from "../../api/transaction";
 import { getUserData } from "../../common/retrieveuserdata";
 
-export default function TransactionForm({ setMessageState, setSummaryData }) {
+export default function TransactionForm({ setMessageState, setSummaryData, refreshData }) {
   const [formData, setFormData] = useState({
     sender_address: "",
     recipient_address: "",
@@ -103,7 +103,8 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
       if (
         isTransactionSend !== 422 &&
         isTransactionSend !== 500 &&
-        isTransactionSend !== 403
+        isTransactionSend !== 403 &&
+        isTransactionSend !== 400
       ) {
         const linkToTransaction = `https://mempool.space/testnet4/tx/${isTransactionSend}`;
         setMessageState({
@@ -123,7 +124,7 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
           type: "success",
           closed: false,
         });
-
+        refreshData();
         setFormData({
           sender_address: "",
           recipient_address: "",

@@ -12,6 +12,10 @@ import QuickAccessSection from "./QuickAccessSection";
 export async function loader() {
   try {
     const userData = await getUserData();
+
+    if(userData === null) {
+      return;
+    }
     const [wallets, transactions] = await Promise.all([
       getUserWalletsAndKeysById(userData.account_id),
       getTransactionsConnectedToAccount(userData.account_id),
@@ -19,13 +23,12 @@ export async function loader() {
 
     return { userData, wallets, transactions };
   } catch {
-    return { userData, wallets: [], transactions: [] };
+    return { wallets: [], transactions: [] };
   }
 }
 
 export default function HomePage() {
   const { userData, wallets, transactions } = useLoaderData();
-  console.log(wallets)
 
   if (wallets === null) {
     return (
@@ -41,7 +44,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-4">
+    <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 p-4">
       <WelcomeSection username={userData.username} />
       <WalletsSection wallets={wallets} headerMsg={"Beschikbare wallets"} />
       <QuickAccessSection />

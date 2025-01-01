@@ -58,6 +58,7 @@ def returnBitcoinTransaction():
     try:
         required_fields = ["sender_address", "recipient_address", "amount_to_send", "fee", "account_id"]
         data = request.json
+        print(data)
         if not data or not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 422
         

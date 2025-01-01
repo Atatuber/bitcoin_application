@@ -78,7 +78,7 @@ def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fe
         if not storeTransaction(wallet_id, txid, total_needed):
             return {"error": 500, "message": "Failed to store transaction in database"}
 
-        return {"transaction_id": txid}
+        return txid
 
     except Exception as e:
         print(f"Error in transaction processing: {e}")

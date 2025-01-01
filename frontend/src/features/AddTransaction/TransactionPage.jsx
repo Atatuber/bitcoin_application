@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 import { getUserData } from "../../common/retrieveuserdata";
 import { getUserWalletsAndKeysById } from "../../api/bitcoin";
@@ -24,6 +24,7 @@ export async function loader() {
 
 export default function TransactionPage() {
   const { wallets } = useLoaderData();
+  const navigate = useNavigate();
 
   const [messageState, setMessageState] = useState({
     message: "",
@@ -51,6 +52,10 @@ export default function TransactionPage() {
     role: "recipient",
   });
 
+  const refreshData = () => {
+    navigate(`.`, { replace: true });
+  };
+
   return (
     <section className="bg-gray-50 py-12 flex flex-col items-center justify-center">
       <div className="container w-full">
@@ -72,12 +77,13 @@ export default function TransactionPage() {
           )}
       </div>
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
           <h1 className="text-2xl font-bold text-gray-900">Transactie maken</h1>
           <p className="text-gray-600 text-sm mb-4">Maak hier uw transactie.</p>
           <TransactionForm
             setMessageState={setMessageState}
             setSummaryData={setSummaryData}
+            refreshData={refreshData}
           />
         </div>
         <div className="flex flex-col gap-6 h-full">

@@ -6,7 +6,12 @@ import ErrorAlert from "../Common/ErrorAlert";
 
 export async function loader() {
   const userData = await getUserData();
-  return { userData } || {};
+
+  if (userData === null) {
+    return;
+  }
+  
+  return { userData };
 }
 
 export default function AddWalletPage() {

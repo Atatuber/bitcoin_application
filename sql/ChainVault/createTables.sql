@@ -18,7 +18,7 @@ CREATE TABLE accounts (
 CREATE TABLE wallets (
     wallet_id SERIAL PRIMARY KEY,
     account_id SERIAL NOT NULL REFERENCES accounts(account_id) ON DELETE CASCADE,
-    name VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
     mnemonic TEXT NOT NULL,
     network VARCHAR(50) DEFAULT 'testnet',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

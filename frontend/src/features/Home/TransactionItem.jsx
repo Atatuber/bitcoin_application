@@ -23,7 +23,7 @@ export default function TransactionItem({ transaction }) {
       >
         {transaction.transaction_id}
       </th>
-      <td className="px-6 py-4">{transaction.wallet_id}</td>
+      <td className="px-6 py-4">{transaction.address}</td>
       <td className="px-6 py-4">{formatDate(transaction.timestamp)}</td>
       <td className="px-6 py-4">
         <span className="font-medium text-green-700 bg-green-200 rounded-lg px-2 py-1">
