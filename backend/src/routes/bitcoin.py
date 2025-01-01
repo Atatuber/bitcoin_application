@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from services.bitcoin_service import createBitcoinWallet, getWalletByWalletId, getWalletsAndKeysByAccountId
-from services.transaction import makeBitcoinTransaction
+from services.transaction_service import makeBitcoinTransaction, getAllAccountTransactions
 
 btc_bp = Blueprint('api/btc', __name__)
 
@@ -70,3 +70,18 @@ def returnBitcoinTransaction():
             return "500", 500
 
             
+@btc_bp.route("/transaction/<account_id>", methods=['GET'])
+def returnTransactionsConnectedToAccount(account_id):
+    if request.method == "GET":
+        try:
+            transactions = getAllAccountTransactions(account_id)
+
+            if transactions is None:
+                print("No transactions found")
+                return "404", 404
+            
+            return jsonify(transactions), 200
+        except Exception as e:
+            print("Error reiving transactions (ROUTE LAYER)")
+            return "500", 500
+        

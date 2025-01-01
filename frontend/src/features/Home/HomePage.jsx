@@ -2,23 +2,28 @@ import { useLoaderData } from "react-router-dom";
 
 import { getUserData } from "../../common/retrieveuserdata";
 import { getUserWalletsAndKeysById } from "../../api/bitcoin";
+import { getTransactionsConnectedToAccount } from "../../api/transaction";
 
 import WelcomeSection from "./WelcomeSection";
 import WalletsSection from "./WalletsSection";
+import TransactionsSection from "./TransactionsSection";
 
 export async function loader() {
   try {
     const userData = await getUserData();
-    const wallets = await getUserWalletsAndKeysById(userData.account_id);
+    const [wallets, transactions] = await Promise.all([
+      getUserWalletsAndKeysById(userData.account_id),
+      getTransactionsConnectedToAccount(userData.account_id),
+    ]);
 
-    return { userData, wallets };
+    return { userData, wallets, transactions };
   } catch {
-    return { wallets: [] };
+    return { wallets: [], transactions: [] };
   }
 }
 
 export default function HomePage() {
-  const { userData, wallets } = useLoaderData();
+  const { userData, wallets, transactions } = useLoaderData();
 
   if (wallets === null) {
     return (
@@ -37,6 +42,7 @@ export default function HomePage() {
     <div className="grid grid-cols-2 gap-4 p-4">
       <WelcomeSection username={userData.username} />
       <WalletsSection wallets={wallets} headerMsg={"Beschikbare wallets"} />
+      <TransactionsSection transactions={transactions} />
     </div>
   );
 }

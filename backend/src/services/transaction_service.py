@@ -2,7 +2,7 @@ import requests
 from bitcoinlib.transactions import Transaction
 from bitcoinlib.keys import HDKey
 from database.bitcoin_db import getWalletByAddress, storeTransaction
-
+from database.transactions_db import getTransactionsConnectedToAccount
 def getUtxos(address):
     url = f"https://mempool.space/testnet4/api/address/{address}/utxo"
     response = requests.get(url)
@@ -86,3 +86,18 @@ def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fe
         return txid
     except Exception as e:
         print(f"Error broadcasting transaction: {e}")
+
+
+def getAllAccountTransactions(account_id):
+    try:
+        transactions = getTransactionsConnectedToAccount(account_id)
+
+        if transactions is None:
+            print("Error getting transactions")
+            return None
+        
+        return transactions
+    
+    except Exception as e:
+        print("Error getting transactions (SERIVCE LAYER.)")
+        return None

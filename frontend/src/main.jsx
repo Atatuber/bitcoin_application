@@ -16,8 +16,8 @@ import AddWalletPage, {
   loader as UserLoader,
 } from "./features/AddWallet/AddWalletPage";
 import TransactionPage, {
-  loader as Wallet2Loader,
-} from "./features/Transaction/TransactionPage";
+  loader as WalletLoader,
+} from "./features/AddTransaction/TransactionPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,9 +32,9 @@ const router = createBrowserRouter(
             loader={UserLoader}
           />
           <Route
-            path="/transaction"
+            path="/transaction/add"
             element={<TransactionPage />}
-            loader={Wallet2Loader}
+            loader={WalletLoader}
           />
         </Route>
       </Route>

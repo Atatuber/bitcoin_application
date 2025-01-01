@@ -1,5 +1,7 @@
-DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS keys;
+DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS wallets;
+DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts (
     account_id SERIAL PRIMARY KEY,           
@@ -20,7 +22,7 @@ CREATE TABLE wallets (
     mnemonic TEXT NOT NULL,
     network VARCHAR(50) DEFAULT 'testnet',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 CREATE TABLE keys (
     key_id SERIAL PRIMARY KEY,
