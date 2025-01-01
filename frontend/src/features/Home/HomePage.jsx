@@ -7,6 +7,7 @@ import { getTransactionsConnectedToAccount } from "../../api/transaction";
 import WelcomeSection from "./WelcomeSection";
 import WalletsSection from "./WalletsSection";
 import TransactionsSection from "./TransactionsSection";
+import QuickAccessSection from "./QuickAccessSection";
 
 export async function loader() {
   try {
@@ -42,6 +43,7 @@ export default function HomePage() {
     <div className="grid grid-cols-2 gap-4 p-4">
       <WelcomeSection username={userData.username} />
       <WalletsSection wallets={wallets} headerMsg={"Beschikbare wallets"} />
+      <QuickAccessSection />
       <TransactionsSection transactions={transactions} />
     </div>
   );

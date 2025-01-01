@@ -18,7 +18,7 @@ export default function TransactionTable({ transactions }) {
             Bedrag
           </th>
           <th scope="col" className="px-6 py-3">
-            <span className="sr-only">Link</span>
+            Status
           </th>
         </tr>
       </thead>

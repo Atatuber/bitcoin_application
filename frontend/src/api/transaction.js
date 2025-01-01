@@ -4,12 +4,13 @@ export async function sendTransaction(
   sender_address,
   recipient_address,
   amount_to_send,
-  fee
+  fee,
+  account_id
 ) {
   try {
     const response = await axios.post(
       "http://127.0.0.1:5000/api/btc/transaction",
-      { sender_address, recipient_address, amount_to_send, fee },
+      { sender_address, recipient_address, amount_to_send, fee, account_id },
       { withCredentials: true }
     );
     return response.data;

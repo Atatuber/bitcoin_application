@@ -42,12 +42,13 @@ def getWalletById(wallet_id):
         return df.to_dict(orient='records')[0]
     return None
 
-def getWalletByAddress(address):
+def getWalletByAddress(address, account_id):
     query = """
-    SELECT w.wallet_id, w.mnemonic FROM wallets w INNER JOIN keys k ON w.wallet_id = k.wallet_id WHERE k.address = :address
+    SELECT w.wallet_id, w.account_id, w.mnemonic FROM wallets w INNER JOIN keys k ON w.wallet_id = k.wallet_id WHERE k.address = :address AND w.account_id = :account_id
     """
     params = {
-        "address": address
+        "address": address,
+        "account_id": account_id,
     }
     df = db.readQuery(query, params)
     if df is not None and not df.empty:

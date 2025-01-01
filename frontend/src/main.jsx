@@ -32,7 +32,7 @@ const router = createBrowserRouter(
             loader={UserLoader}
           />
           <Route
-            path="/transaction/add"
+            path="/transactions/add"
             element={<TransactionPage />}
             loader={WalletLoader}
           />

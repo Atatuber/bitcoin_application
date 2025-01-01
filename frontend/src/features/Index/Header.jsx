@@ -70,9 +70,9 @@ export default function Header({ location }) {
                   <div className="py-1">
                     <MenuItem className="flex justify-start items-center gap-2 w-full">
                       <Link
-                        to="/transaction/add"
+                        to="/transactions/add"
                         className={`text-sm hover:bg-gray-100 ${isActive(
-                          "/transaction"
+                          "/transactions/add"
                         )}`}
                       >
                         <svg
@@ -96,9 +96,9 @@ export default function Header({ location }) {
                   <div className="py-1">
                     <MenuItem className="flex justify-start items-start gap-2 w-full">
                       <Link
-                        to="/transaction"
+                        to="/transactions"
                         className={`text-sm hover:bg-gray-100 ${isActive(
-                          "/transaction"
+                          "/transactions"
                         )}`}
                       >
                         <svg

@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, request
+from werkzeug.exceptions import HTTPException
+
 from services.bitcoin_service import createBitcoinWallet, getWalletByWalletId, getWalletsAndKeysByAccountId
 from services.transaction_service import makeBitcoinTransaction, getAllAccountTransactions
 
@@ -53,22 +55,29 @@ def returnWalletByWalletId(wallet_id):
         
 @btc_bp.route('/transaction', methods=['POST'])
 def returnBitcoinTransaction():
-    if request.method == "POST":
-        try:
-            sender_address = request.json.get("sender_address")
-            recipient_address = request.json.get("recipient_address")
-            amount_to_send = request.json.get("amount_to_send")
-            fee = request.json.get("fee")
+    try:
+        required_fields = ["sender_address", "recipient_address", "amount_to_send", "fee", "account_id"]
+        data = request.json
+        if not data or not all(field in data for field in required_fields):
+            return jsonify({"error": "Missing required fields"}), 422
+        
+        sender_address = data["sender_address"]
+        recipient_address = data["recipient_address"]
+        amount_to_send = int(data["amount_to_send"])
+        fee = int(data["fee"])
+        account_id = int(data["account_id"])
 
-            transaction = makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee)
-            
-            if transaction is not None:
-                return transaction
-            else:
-                return "422", 422
-        except Exception as e:
-            return "500", 500
+        transaction = makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee, account_id)
 
+        if "error" in transaction:
+            return jsonify({"error": transaction["error"]}), transaction["error"]
+
+        return jsonify(transaction), 200
+
+    except HTTPException as http_err:
+        return jsonify({"error": http_err.description}), http_err.code
+    except Exception as e:
+        return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
             
 @btc_bp.route("/transaction/<account_id>", methods=['GET'])
 def returnTransactionsConnectedToAccount(account_id):

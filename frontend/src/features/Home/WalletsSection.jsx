@@ -8,7 +8,7 @@ export default function WalletsSection({ wallets }) {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Beschikbare wallets
           </h1>
-          <p className="text-gray-600 text-sm mb-4">
+          <p className="text-gray-600 text-base mb-4">
             Bekijk hier uw bestaande wallets.
           </p>
           {wallets.length > 0 ? (

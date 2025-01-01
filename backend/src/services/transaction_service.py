@@ -19,73 +19,70 @@ def broadcastTransaction(tx_hex):
         raise Exception(f"Broadcast failed: {response.json()}")
     return response.text.strip()
 
-def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee):
-    mnemonic = getWalletByAddress(sender_address)['mnemonic']
-    wallet_id = getWalletByAddress(sender_address)['wallet_id']
-
-    master_key = HDKey.from_passphrase(mnemonic, network="testnet")
-    child_key = master_key.subkey_for_path("m/0")
-    derived_address = child_key.address()
-
-    if derived_address != sender_address:
-        print(f"Derived address does not match expected address!")
-        return None
-    
-    print(f"Derived Address: {derived_address}")
-    print(f"Expected Address: {sender_address}")
-
-    utxos = getUtxos(sender_address)
-    for utxo in utxos:
-        print(f"UTXO - TXID: {utxo['txid']}, VOUT: {utxo['vout']}, VALUE: {utxo['value']} satoshis")
-
-    total_needed = amount_to_send + fee
-
-    selected_utxos = []
-    total_value = 0
-    for utxo in utxos:
-        selected_utxos.append(utxo)
-        total_value += utxo["value"]
-        if total_value >= total_needed:
-            break
-
-    if total_value < total_needed:
-        print(f"Insufficient funds. Total: {total_value}, Needed: {total_needed}")
-        return None
-    
-    tx = Transaction(network="testnet")
-
-    for utxo in selected_utxos:
-        print(f"Adding Input - TXID: {utxo['txid']}, VOUT: {utxo['vout']}, VALUE: {utxo['value']} satoshis")
-        tx.add_input(utxo["txid"], utxo["vout"], value=utxo["value"], witness_type="segwit")
-
-    tx.add_output(address=recipient_address, value=amount_to_send)
-    
-    change = total_value - total_needed
-    if change > 0:
-        tx.add_output(address=sender_address, value=change)
-
-    tx.fee = fee
-
-    tx.sign(keys=[child_key])
-
-    tx_hex = tx.raw_hex()
-
-    if not tx.verify():
-        print("Transaction verification failed.")
-        return None
-
+def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fee, account_id):
     try:
+        wallet = getWalletByAddress(sender_address, account_id)
+        if wallet is None:
+            return {"error": 403, "message": "Wallet not found or wallet isn't from user"}
+        
+        mnemonic = wallet['mnemonic']
+        wallet_id = wallet['wallet_id']
+
+        master_key = HDKey.from_passphrase(mnemonic, network="testnet")
+        child_key = master_key.subkey_for_path("m/0")
+        derived_address = child_key.address()
+
+        if derived_address != sender_address:
+            return {"error": 404, "message": "Derived address does not match expected address"}
+
+        print(f"Derived Address: {derived_address}")
+        print(f"Expected Address: {sender_address}")
+
+        utxos = getUtxos(sender_address)
+        total_needed = amount_to_send + fee
+
+        selected_utxos = []
+        total_value = 0
+        for utxo in utxos:
+            selected_utxos.append(utxo)
+            total_value += utxo["value"]
+            if total_value >= total_needed:
+                break
+
+        if total_value < total_needed:
+            return {"error": 400, "message": f"Insufficient funds. Total: {total_value}, Needed: {total_needed}"}
+
+        tx = Transaction(network="testnet")
+
+        for utxo in selected_utxos:
+            tx.add_input(utxo["txid"], utxo["vout"], value=utxo["value"], witness_type="segwit")
+
+        tx.add_output(address=recipient_address, value=amount_to_send)
+        
+        change = total_value - total_needed
+        if change > 0:
+            tx.add_output(address=sender_address, value=change)
+
+        tx.fee = fee
+
+        tx.sign(keys=[child_key])
+
+        if not tx.verify():
+            return {"error": 500, "message": "Transaction verification failed"}
+
+        tx_hex = tx.raw_hex()
+
         txid = broadcastTransaction(tx_hex)
         print(f"Transaction broadcasted successfully. TXID: {txid}")
-        try:
-            storeTxInDB = storeTransaction(wallet_id, txid, total_needed)
-            if storeTxInDB is False:
-                print("Store transaction has failed")
-        except Exception as e:
-            return None
-        return txid
+
+        if not storeTransaction(wallet_id, txid, total_needed):
+            return {"error": 500, "message": "Failed to store transaction in database"}
+
+        return {"transaction_id": txid}
+
     except Exception as e:
-        print(f"Error broadcasting transaction: {e}")
+        print(f"Error in transaction processing: {e}")
+        return {"error": 500, "message": str(e)}
 
 
 def getAllAccountTransactions(account_id):

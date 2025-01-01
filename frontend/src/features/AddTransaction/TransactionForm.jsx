@@ -3,6 +3,7 @@ import { useState } from "react";
 import { hasErrors } from "../../common/common";
 import { calculateFee } from "../../common/common";
 import { sendTransaction } from "../../api/transaction";
+import { getUserData } from "../../common/retrieveuserdata";
 
 export default function TransactionForm({ setMessageState, setSummaryData }) {
   const [formData, setFormData] = useState({
@@ -80,11 +81,14 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
 
     const satoshisPerBTC = 100000000;
 
+    const userAccount = await getUserData();
+
     const sendingData = {
       sender_address: formData.sender_address,
       recipient_address: formData.recipient_address,
       amount_to_send: Math.round(formData.amount_to_spend * satoshisPerBTC),
       fee: Math.round(formData.fee * satoshisPerBTC),
+      account_id: userAccount.account_id,
     };
 
     try {
@@ -92,10 +96,15 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
         sendingData.sender_address,
         sendingData.recipient_address,
         sendingData.amount_to_send,
-        sendingData.fee
+        sendingData.fee,
+        sendingData.account_id
       );
 
-      if (isTransactionSend !== 422 && isTransactionSend !== 500) {
+      if (
+        isTransactionSend !== 422 &&
+        isTransactionSend !== 500 &&
+        isTransactionSend !== 403
+      ) {
         const linkToTransaction = `https://mempool.space/testnet4/tx/${isTransactionSend}`;
         setMessageState({
           message: (
@@ -115,6 +124,19 @@ export default function TransactionForm({ setMessageState, setSummaryData }) {
           closed: false,
         });
 
+        setFormData({
+          sender_address: "",
+          recipient_address: "",
+          amount_to_spend: "",
+          fee: "",
+        });
+        setSummaryData({});
+      } else if (isTransactionSend === 403) {
+        setMessageState({
+          message: `Opgegeven wallet is niet gevonden. Probeer het opnieuw.`,
+          type: "error",
+          closed: false,
+        });
         setFormData({
           sender_address: "",
           recipient_address: "",
