@@ -3,7 +3,8 @@ import TransactionTable from "./TransactionTable";
 export default function TransactionsSection({ transactions }) {
   const hasTransactions = transactions !== null && transactions.length > 0;
 
-  const latestTransactions = transactions.slice(0, 2);
+
+  const latestTransactions = hasTransactions && transactions.slice(0, 2);
 
   return (
     <section className="text-gray-600 body-font bg-white rounded-lg shadow-md m-2 flex justify-center items-center">

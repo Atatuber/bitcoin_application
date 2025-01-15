@@ -22,7 +22,7 @@ export async function loader() {
   }
 }
 
-export default function TransactionPage() {
+export default function AddTransactionPage() {
   const { wallets } = useLoaderData();
   const navigate = useNavigate();
 

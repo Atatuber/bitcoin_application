@@ -15,9 +15,10 @@ import ProtectedRoute from "./features/Auth/ProtectedRoute";
 import AddWalletPage, {
   loader as UserLoader,
 } from "./features/AddWallet/AddWalletPage";
-import TransactionPage, {
+import AddTransactionPage, {
   loader as WalletLoader,
-} from "./features/AddTransaction/TransactionPage";
+} from "./features/AddTransaction/AddTransactionPage";
+import TransactionsPage from "./features/TransactionsPage/TransactionsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,9 +34,10 @@ const router = createBrowserRouter(
           />
           <Route
             path="/transactions/add"
-            element={<TransactionPage />}
+            element={<AddTransactionPage />}
             loader={WalletLoader}
           />
+          <Route path="/transactions" element={<TransactionsPage />} />
         </Route>
       </Route>
     </>
