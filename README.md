@@ -1,8 +1,8 @@
 # bitcoin_application
 
-## **Bitcoin Tracking Application**
+## **Bitcoin (TESTNET) Tracking Application**
 
-Easily manage and track your Bitcoin wallets!
+Easily manage, track and send bitcoin using your Bitcoin wallets!
 
 ---
 
