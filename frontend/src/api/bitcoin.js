@@ -8,7 +8,6 @@ export async function getUserWalletsAndKeysById(account_id) {
     );
     return response.data;
   } catch (error) {
-    console.error(error);
     return {};
   }
 }
