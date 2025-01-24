@@ -2,7 +2,7 @@ from database.db_config import db
 
 def getTransactionsConnectedToAccount(account_id):
     query = """
-    SELECT t.transaction_id, w.wallet_id, k.address, w.account_id, t.txid, t.amount, t.timestamp 
+    SELECT t.transaction_id, w.wallet_id, t.address_from, t.address_to, w.account_id, t.txid, t.amount, t.timestamp, t.sending
     FROM transactions t 
     INNER JOIN wallets w ON t.wallet_id = w.wallet_id 
     INNER JOIN keys k on w.wallet_id = k.wallet_id

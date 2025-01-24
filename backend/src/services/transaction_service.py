@@ -75,7 +75,7 @@ def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fe
         txid = broadcastTransaction(tx_hex)
         print(f"Transaction broadcasted successfully. TXID: {txid}")
 
-        if not storeTransaction(wallet_id, txid, total_needed):
+        if not storeTransaction(wallet_id, sender_address, recipient_address, txid, total_needed):
             return {"error": 500, "message": "Failed to store transaction in database"}
 
         return txid

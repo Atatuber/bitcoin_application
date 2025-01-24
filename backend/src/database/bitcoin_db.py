@@ -103,11 +103,13 @@ def insertNewBalance(address, new_balance):
     except Exception as e:
         return False
 
-def storeTransaction(wallet_id, txid, amount_to_send):
+def storeTransaction(wallet_id, address_from, address_to, txid, amount_to_send):
     try:
-        query = "INSERT INTO transactions (wallet_id, txid, amount) VALUES(:wallet_id, :txid, :amount)"
+        query = "INSERT INTO transactions (wallet_id, address_from, address_to, txid, amount) VALUES(:wallet_id, :address_from, :address_to, :txid, :amount)"
         params = {
             "wallet_id": wallet_id,
+            "address_from": address_from,
+            "address_to": address_to,
             "txid": txid,
             "amount": amount_to_send
         }

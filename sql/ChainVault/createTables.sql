@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS keys;
 DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS keys;
 DROP TABLE IF EXISTS wallets;
 DROP TABLE IF EXISTS accounts;
 
@@ -37,7 +37,10 @@ CREATE TABLE keys (
 
 CREATE TABLE transactions (
     transaction_id SERIAL PRIMARY KEY,
-    wallet_id INT REFERENCES wallets(wallet_id) ON DELETE CASCADE,
+    wallet_id INT REFERENCES wallets(wallet_id) ON DELETE CASCADE, 
+    address_from VARCHAR(255) NOT NULL REFERENCES keys(address) ON DELETE CASCADE,
+    address_to VARCHAR(255) NOT NULL,
+    sending BOOLEAN NOT NULL DEFAULT TRUE,
     txid TEXT NOT NULL,
     amount NUMERIC,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP

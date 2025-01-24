@@ -9,16 +9,16 @@ export default function TransactionTable({ transactions }) {
             Transactie nummer
           </th>
           <th scope="col" className="px-6 py-3">
-            Wallet adres
+            Verstuurder
           </th>
           <th scope="col" className="px-6 py-3">
-            Tijdstip
+            Ontvanger
           </th>
           <th scope="col" className="px-6 py-3">
             Bedrag
           </th>
           <th scope="col" className="px-6 py-3">
-            Status
+            Acties
           </th>
         </tr>
       </thead>
