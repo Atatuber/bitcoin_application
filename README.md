@@ -73,12 +73,13 @@ Before you begin, ensure you have the following installed on your system:
 4. **Install Required Python Packages:**
 
     ```bash
-    pip install flask
-    pip install bitcoinlib
-    pip install flask-cors
-    pip install flask-bcrypt
-    pip install flask-jwt-extended
-    pip install pandas
+    (python3 -m) pip install flask
+    (python3 -m) pip install bitcoinlib
+    (python3 -m) pip install flask-cors
+    (python3 -m) pip install flask-bcrypt
+    (python3 -m) pip install flask-jwt-extended
+    (python3 -m) pip install pandas
+    (python3 -m) pip install psycopg2
     ```
 
 5. **Navigate to the Source Directory:**
