@@ -18,7 +18,7 @@ import AddWalletPage, {
 import AddTransactionPage, {
   loader as WalletLoader,
 } from "./features/AddTransaction/AddTransactionPage";
-import TransactionsPage from "./features/TransactionsPage/TransactionsPage";
+import TransactionsPage, {loader as WalletsAndTransactionsLoader} from "./features/TransactionsPage/TransactionsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +37,7 @@ const router = createBrowserRouter(
             element={<AddTransactionPage />}
             loader={WalletLoader}
           />
-          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} loader={WalletsAndTransactionsLoader} />
         </Route>
       </Route>
     </>
