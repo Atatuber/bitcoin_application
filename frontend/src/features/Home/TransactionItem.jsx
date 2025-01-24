@@ -3,18 +3,6 @@ export default function TransactionItem({ transaction }) {
     return (amount * 0.0000001).toFixed(5);
   };
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    return date.toLocaleDateString("nl-NL", options);
-  };
-
   const amountLabel = (amount) => {
     return transaction.sending ? (
       <span className="font-medium text-red-700 bg-red-200 rounded-lg px-2 py-1">
@@ -22,7 +10,7 @@ export default function TransactionItem({ transaction }) {
       </span>
     ) : (
       <span className="font-medium text-green-700 bg-green-200 rounded-lg px-2 py-1">
-        {satoshiToBitcoin(amount)} BTC
+       + {satoshiToBitcoin(amount)} BTC
       </span>
     );
   };

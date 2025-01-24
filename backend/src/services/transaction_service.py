@@ -1,8 +1,9 @@
 import requests
+from datetime import datetime, timezone
 from bitcoinlib.transactions import Transaction
 from bitcoinlib.keys import HDKey
 from database.bitcoin_db import getWalletByAddress, storeTransaction
-from database.transactions_db import getTransactionsConnectedToAccount
+from database.transactions_db import getTransactionsConnectedToAccount, getWalletIdFromAddress, updateTransactions, getAddressFromAccountId, checkTxidExists
 def getUtxos(address):
     url = f"https://mempool.space/testnet4/api/address/{address}/utxo"
     response = requests.get(url)
@@ -83,18 +84,93 @@ def makeBitcoinTransaction(sender_address, recipient_address, amount_to_send, fe
     except Exception as e:
         print(f"Error in transaction processing: {e}")
         return {"error": 500, "message": str(e)}
+    
+def unixToDateTime(unix_timestamp):
+    try:
+        unix_timestamp = int(unix_timestamp)
+        utc_time = datetime.fromtimestamp(unix_timestamp, tz=timezone.utc)
+        return utc_time.isoformat()  #
+    except Exception as e:
+        return f"Error converting timestamp: {e}"
 
-
+def getAllTransactionsFromAddress(address):
+    url = f"https://mempool.space/testnet4/api/address/{address}/txs"
+    try:
+        response = requests.get(url)
+        if response:
+            return response.json()
+    except Exception as e:
+        return None
+    
+def filterIncomingTransactions(transactions, address):
+    incoming_transactions = []
+    for tx in transactions:
+        for vout in tx.get("vout", []):
+            if vout.get("scriptpubkey_address") == address:
+                sender_address = None
+                if tx.get("vin"):
+                    prevout = tx["vin"][0].get("prevout", {})
+                    sender_address = prevout.get("scriptpubkey_address", "unknown")
+                
+                incoming_transactions.append({
+                    "txid": tx["txid"],
+                    "address_from": sender_address,
+                    "address_to": address,
+                    "amount": vout.get("value", 0) / 1e8,  
+                    "timestamp": unixToDateTime(tx.get("status", {}).get("block_time", 0))
+                })
+    return incoming_transactions
+    
+def updateTransactionsForAllAddresses(addresses):
+    all_filtered_transactions = []
+    for address in addresses:
+        print(f"Checking transactions for address: {address}")
+        transactions = getAllTransactionsFromAddress(address)
+        filtered_transactions = filterIncomingTransactions(transactions, address)
+        all_filtered_transactions.extend(filtered_transactions)
+    
+    return all_filtered_transactions
+    
 def getAllAccountTransactions(account_id):
     try:
-        transactions = getTransactionsConnectedToAccount(account_id)
+        all_addresses = getAddressFromAccountId(account_id)
+        if not all_addresses:
+            print(f"No addresses found for account ID {account_id}")
+            return None
+        
+        if isinstance(all_addresses, dict): 
+            all_addresses = [all_addresses.get("address")] 
+        elif isinstance(all_addresses, list):
+            all_addresses = [addr.get("address") for addr in all_addresses if "address" in addr]
+        else:
+            print(f"Unexpected data format for addresses: {all_addresses}")
+            return None
 
+        print(f"Addresses to check: {all_addresses}")
+
+        filtered_transactions = updateTransactionsForAllAddresses(all_addresses)
+        if not filtered_transactions:
+            print("No transactions found")
+            return None
+        
+        print("Filtered transactions:")
+        for tx in filtered_transactions:
+            txExists = checkTxidExists(tx["txid"])
+            if txExists:
+                continue
+
+            walletId = getWalletIdFromAddress(tx["address_to"])["wallet_id"]
+            sending = False
+            amount = tx["amount"] * 100000000
+            updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount, tx["timestamp"])
+
+        transactions = getTransactionsConnectedToAccount(account_id)
         if transactions is None:
-            print("Error getting transactions")
+            print("Error getting existing transactions")
             return None
         
         return transactions
     
     except Exception as e:
-        print("Error getting transactions (SERIVCE LAYER.)")
+        print(f"Error getting transactions (SERVICE LAYER): {e}")
         return None
