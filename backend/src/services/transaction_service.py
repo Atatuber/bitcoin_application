@@ -155,15 +155,14 @@ def getAllAccountTransactions(account_id):
         
         print("Filtered transactions:")
         for tx in filtered_transactions:
-            print(tx)
             txExists = checkTxidExists(tx["txid"])
             if txExists:
                 continue
-
+            print(tx)
             walletId = getWalletIdFromAddress(tx["address_to"])["wallet_id"]
             sending = False
             amount = tx["amount"] * 100000000
-            updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount, tx["timestamp"])
+            updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount)
 
         transactions = getTransactionsConnectedToAccount(account_id)
         if transactions is None:

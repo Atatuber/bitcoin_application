@@ -46,10 +46,10 @@ def getAddressFromAccountId(account_id):
         return df.to_dict(orient='records')
     
 
-def updateTransactions(wallet_id, address_from, address_to, sending, txid, amount, timestamp):
+def updateTransactions(wallet_id, address_from, address_to, sending, txid, amount):
     query = """
-    INSERT INTO transactions (wallet_id, address_from, address_to, sending, txid, amount, timestamp)
-    VALUES (:wallet_id, :address_from, :address_to, :sending, :txid, :amount, :timestamp)
+    INSERT INTO transactions (wallet_id, address_from, address_to, sending, txid, amount)
+    VALUES (:wallet_id, :address_from, :address_to, :sending, :txid, :amount)
     """
     params = {
         "wallet_id": wallet_id,
@@ -58,7 +58,6 @@ def updateTransactions(wallet_id, address_from, address_to, sending, txid, amoun
         "sending": sending,
         "txid": txid,
         "amount": amount,
-        "timestamp": timestamp
     }
     df = db.insertQuery(query, params)
     if df is not None and not df.empty:
