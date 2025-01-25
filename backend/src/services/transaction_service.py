@@ -155,6 +155,7 @@ def getAllAccountTransactions(account_id):
         
         print("Filtered transactions:")
         for tx in filtered_transactions:
+            print(tx)
             txExists = checkTxidExists(tx["txid"])
             if txExists:
                 continue
