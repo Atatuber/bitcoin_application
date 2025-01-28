@@ -42,8 +42,8 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 md:flex-row md:justify-around m-6">
-      <section className="bg-white w-full p-6 rounded-lg shadow-lg flex flex-col justify-center">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-6">
+      <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-2">
         <h1 className="text-3xl font-bold">Alle transacties</h1>
         <p className="text-gray-600">Bekijk hier al uw transacties</p>
         <div className="overflow-x-auto shadow-lg rounded-lg m-2">
@@ -54,7 +54,8 @@ export default function TransactionsPage() {
           />
         </div>
       </section>
-      <section className="bg-white w-full md:w-1/2 p-6 rounded-lg shadow-lg flex flex-col justify-center">
+
+      <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-1">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Alle wallets</h1>
