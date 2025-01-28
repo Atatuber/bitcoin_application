@@ -80,6 +80,7 @@ Before you begin, ensure you have the following installed on your system:
     (python3 -m) pip install flask-jwt-extended
     (python3 -m) pip install pandas
     (python3 -m) pip install psycopg2
+    (python3 -m) pip install sqlcipher3-binary
     ```
 
 5. **Navigate to the Source Directory:**
