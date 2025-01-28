@@ -26,7 +26,6 @@ export default function TransactionItem({ transaction }) {
         {transaction.transaction_id}
       </th>
       <td className="px-6 py-4">{transaction.address_from}</td>
-      <td className="px-6 py-4">{transaction.address_to}</td>
       <td className="px-6 py-4">{amountLabel(transaction.amount)}</td>
       <td className="px-6 py-4">
         <a href={linkToTx}>

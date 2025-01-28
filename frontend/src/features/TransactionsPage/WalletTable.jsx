@@ -1,8 +1,12 @@
 import WalletItem from "./WalletItem";
 
-export default function WalletTable({ wallets, filteredAddress, setFilteredAddress }) {
+export default function WalletTable({
+  wallets,
+  filteredAddress,
+  setFilteredAddress,
+}) {
   return (
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 overflow-auto">
+    <table className="w-full text-sm text-left rtl:text-right text-gray-500 shadow-md rounded-lg">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
           <th scope="col" className="px-6 py-3">
@@ -17,16 +21,14 @@ export default function WalletTable({ wallets, filteredAddress, setFilteredAddre
         </tr>
       </thead>
       <tbody>
-        {wallets.map((wallet, index) => {
-          return (
-            <WalletItem
-              key={index}
-              wallet={wallet}
-              filteredAddress={filteredAddress}
-              setFilteredAddress={setFilteredAddress}
-            />
-          );
-        })}
+        {wallets.map((wallet, index) => (
+          <WalletItem
+            key={index}
+            wallet={wallet}
+            filteredAddress={filteredAddress}
+            setFilteredAddress={setFilteredAddress}
+          />
+        ))}
       </tbody>
     </table>
   );

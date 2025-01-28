@@ -12,9 +12,6 @@ export default function TransactionTable({ transactions }) {
             Verstuurder
           </th>
           <th scope="col" className="px-6 py-3">
-            Ontvanger
-          </th>
-          <th scope="col" className="px-6 py-3">
             Bedrag
           </th>
           <th scope="col" className="px-6 py-3">
