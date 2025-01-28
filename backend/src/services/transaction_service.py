@@ -157,12 +157,31 @@ def getAllAccountTransactions(account_id):
         for tx in filtered_transactions:
             txExists = checkTxidExists(tx["txid"])
             if txExists:
-                continue
-            print(tx)
-            walletId = getWalletIdFromAddress(tx["address_to"])["wallet_id"]
-            sending = False
-            amount = tx["amount"] * 100000000
-            updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount)
+                print(f"Transaction already processed: {tx['txid']}")
+                continue 
+
+            print(f"Processing transaction: {tx['txid']}")
+
+            address_from_wallet = getWalletIdFromAddress(tx["address_from"])
+            address_to_wallet = getWalletIdFromAddress(tx["address_to"])
+
+            if address_from_wallet and address_to_wallet:
+                if address_from_wallet["wallet_id"] == address_to_wallet["wallet_id"]:
+                    print(f"Internal transaction within the same wallet: {tx['txid']}")
+                    continue  
+                else:
+                    print(f"Internal transaction between wallets: {tx['txid']}")
+                    walletId_from = address_from_wallet["wallet_id"]
+                    walletId_to = address_to_wallet["wallet_id"]
+                    amount = tx["amount"] * 100000000
+
+                    updateTransactions(walletId_from, tx["address_from"], tx["address_to"], True, tx["txid"], amount)
+                    updateTransactions(walletId_to, tx["address_from"], tx["address_to"], False, tx["txid"], amount)
+            else:
+                walletId = getWalletIdFromAddress(tx["address_to"])["wallet_id"]
+                sending = False
+                amount = tx["amount"] * 100000000
+                updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount)
 
         transactions = getTransactionsConnectedToAccount(account_id)
         if transactions is None:
