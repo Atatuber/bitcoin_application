@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { hasErrors } from "../../common/common";
-import { addWallet } from "../../api/bitcoin";
+import { addWallet, getWalletAndKeysByWalletId } from "../../api/bitcoin";
 
-export default function AddWalletForm({ accountId, setMessageState }) {
-  const navigate = useNavigate();
-
+export default function AddWalletForm({
+  accountId,
+  setMessageState,
+  setWalletCreated,
+}) {
   const [formData, setFormData] = useState({
     account_id: accountId,
     name: "",
@@ -45,12 +46,20 @@ export default function AddWalletForm({ accountId, setMessageState }) {
 
     const isWalletAdded = await addWallet(formData);
 
+    const walletAndKeysInfo = await getWalletAndKeysByWalletId(
+      isWalletAdded.wallet.wallet_id
+    );
+
     if (isWalletAdded) {
-      navigate("/", { replace: true });
+      setWalletCreated({
+        isWalletCreated: true,
+        walletName: formData.name,
+        mnemonic: walletAndKeysInfo.mnemonic,
+        privateKey: walletAndKeysInfo.key_private,
+      });
     } else {
       setMessageState({
-        message:
-          "Something went wrong. Try again later",
+        message: "Something went wrong. Try again later",
         closed: false,
       });
     }
@@ -81,9 +90,7 @@ export default function AddWalletForm({ accountId, setMessageState }) {
           placeholder="My new wallet"
         />
         {errors.name && (
-          <p className="text-red-600 font-medium text-sm">
-            {errors.name}
-          </p>
+          <p className="text-red-600 font-medium text-sm">{errors.name}</p>
         )}
       </div>
       <button

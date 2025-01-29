@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from werkzeug.exceptions import HTTPException
 
-from services.bitcoin_service import createBitcoinWallet, getWalletByWalletId, getWalletsAndKeysByAccountId
+from services.bitcoin_service import createBitcoinWallet, getWalletByWalletId, getWalletsAndKeysByAccountId, getWalletsAndKeysByWalletId
 from services.transaction_service import makeBitcoinTransaction, getAllAccountTransactions
 
 btc_bp = Blueprint('api/btc', __name__)
@@ -16,7 +16,7 @@ def returnNewWallet():
             try:
                 wallet = createBitcoinWallet(account_id, wallet_name)
                 if wallet is not None:
-                    return "200", 200  
+                    return wallet
                 else:
                     return "422", 422  
             except KeyError:
@@ -46,6 +46,18 @@ def returnWalletByWalletId(wallet_id):
         try:
             wallet = getWalletByWalletId(wallet_id)
             print(wallet)
+            if wallet is not None:
+                return jsonify(wallet), 200
+            else:
+                return "404", 404
+        except Exception as e:
+            return "500", 500
+
+@btc_bp.route('/wallets/keys/<wallet_id>', methods=['GET'])
+def returnWalletAndKeysByWalletId(wallet_id):
+    if request.method == "GET":
+        try:
+            wallet = getWalletsAndKeysByWalletId(wallet_id)
             if wallet is not None:
                 return jsonify(wallet), 200
             else:

@@ -37,3 +37,15 @@ export async function addWallet(formData) {
     return false;
   }
 }
+
+export async function getWalletAndKeysByWalletId(walletId) {
+  try {
+    const response = await axios.get(
+      `http://127.0.0.1:5000/api/btc/wallets/keys/${walletId}`,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    return {};
+  }
+}

@@ -41,6 +41,39 @@ def getWalletsAndKeysById(account_id):
     records = df.to_dict(orient='records')
     return records
 
+def getWalletAndKeysByWalletId(wallet_id):
+    query = """
+    SELECT 
+        w.wallet_id, 
+        w.account_id, 
+        k.key_id, 
+        w.name, 
+        k.balance, 
+        pgp_sym_decrypt(w.mnemonic, :secret_key) AS mnemonic,
+        w.network,
+        w.created_at AS wallet_created_at, 
+        pgp_sym_decrypt(k.key_public, :secret_key) AS key_public, 
+        pgp_sym_decrypt(k.key_private, :secret_key) AS key_private, 
+        k.address,
+        k.path, 
+        k.created_at AS key_created_at
+    FROM wallets w 
+    INNER JOIN keys k 
+    ON w.wallet_id = k.wallet_id 
+    WHERE w.wallet_id = :wallet_id
+    """
+    params = {
+        "wallet_id": wallet_id,
+        "secret_key": SECRET_KEY
+    }
+    df = db.readQuery(query, params)
+    
+    if df is None or df.empty:
+        print(f"No wallets and keys found for wallet ID {wallet_id}")
+        return None
+
+    record = df.to_dict(orient='records')[0]
+    return record
 
 def getWalletById(wallet_id):
     query = """

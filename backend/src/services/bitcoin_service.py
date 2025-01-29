@@ -6,6 +6,7 @@ from database.bitcoin_db import (
     insertKeyInDB,
     insertNewBalance,
     getWalletsAndKeysById,
+    getWalletAndKeysByWalletId,
     getWalletById,
 )
 
@@ -121,6 +122,19 @@ def getWalletsAndKeysByAccountId(account_id):
 def getWalletByWalletId(wallet_id):
     try:
         wallet = getWalletById(wallet_id)
+
+        if wallet is None:
+            return None
+
+        return wallet
+    except Exception as e:
+        print(f"Error getting wallet: {e}")
+        return None
+
+
+def getWalletsAndKeysByWalletId(wallet_id):
+    try:
+        wallet = getWalletAndKeysByWalletId(wallet_id)
 
         if wallet is None:
             return None
