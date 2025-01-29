@@ -71,7 +71,7 @@ export default function TransactionsPage() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-6">
       <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-2">
-        <h1 className="text-3xl font-bold">All transactions</h1>
+        <h1 className="text-3xl font-semibold">All transactions</h1>
         <p className="text-gray-600">View all your transactions</p>
         {currentTransactions !== null && currentTransactions.length > 0 ? (
           <div className="overflow-x-auto shadow-lg rounded-lg m-2">
@@ -134,7 +134,7 @@ export default function TransactionsPage() {
       <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-1">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">All wallets</h1>
+            <h1 className="text-3xl font-semibold">All wallets</h1>
             <p className="text-gray-600">View all your BTC wallets</p>
           </div>
           <DeleteFilterButton

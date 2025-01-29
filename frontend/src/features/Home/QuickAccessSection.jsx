@@ -5,7 +5,7 @@ export default function QuickAccessSection() {
     <section className="text-gray-600 body-font bg-white rounded-lg shadow-md m-2 flex justify-center items-center">
       <div className="container mx-auto my-auto text-left">
         <div className="flex flex-col w-full p-10">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-semibold text-gray-900">
             Quick Access Menu
           </h1>
           <p className="text-gray-600 text-base">

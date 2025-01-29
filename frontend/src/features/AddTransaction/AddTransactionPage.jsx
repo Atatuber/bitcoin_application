@@ -78,7 +78,7 @@ export default function AddTransactionPage() {
       </div>
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
-          <h1 className="text-2xl font-bold text-gray-900">Create transaction</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Create transaction</h1>
           <p className="text-gray-600 text-sm mb-4">Send BTC using your wallets</p>
           <TransactionForm
             setMessageState={setMessageState}
@@ -89,7 +89,7 @@ export default function AddTransactionPage() {
         <div className="flex flex-col gap-6 h-full">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="w-full">
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-semibold text-gray-900">
                 Available wallets
               </h1>
               <p className="text-gray-600 text-sm mb-4">
@@ -107,7 +107,7 @@ export default function AddTransactionPage() {
             </div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg flex-grow">
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-semibold text-gray-900">
               Transaction details details
             </h2>
             <p className="text-gray-600 text-sm mb-4">

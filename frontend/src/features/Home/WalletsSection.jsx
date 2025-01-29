@@ -5,7 +5,7 @@ export default function WalletsSection({ wallets }) {
     <section className="bg-white rounded-lg shadow-md p-6 m-2">
       <div className="container mx-auto">
         <div className="w-full">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-semibold text-gray-900">
             Available wallets
           </h1>
           <p className="text-gray-600 text-base mb-2">

@@ -7,6 +7,7 @@ export default function AddWalletForm({
   accountId,
   setMessageState,
   setWalletCreated,
+  isWalletCreated,
 }) {
   const [formData, setFormData] = useState({
     account_id: accountId,
@@ -65,7 +66,9 @@ export default function AddWalletForm({
     }
   };
 
-  return (
+  return isWalletCreated ? (
+    <></>
+  ) : (
     <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
       <div>
         <label

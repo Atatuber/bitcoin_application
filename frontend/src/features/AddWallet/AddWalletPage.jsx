@@ -26,11 +26,8 @@ export default function AddWalletPage() {
     privateKey: "",
   });
 
-  console.log(walletCreated.isWalletCreated);
-
   return (
     <section className="flex flex-col items-center justify-center bg-gray-50 gap-2 m-4">
-      {/* Success Message */}
       <div
         className={`transition-all duration-500 ease-in-out ${
           walletCreated.isWalletCreated
@@ -73,6 +70,7 @@ export default function AddWalletPage() {
               accountId={userData.account_id}
               setMessageState={setMessageState}
               setWalletCreated={setWalletCreated}
+              isWalletCreated={walletCreated.isWalletCreated}
             />
           </div>
         </div>
