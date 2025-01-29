@@ -27,39 +27,39 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
 
   const validateField = (fieldName, value) => {
     if (fieldName === "sender_address" && value === "") {
-      return "BTC Adres van de zender is verplicht.";
+      return "BTC address from sender is obligatory";
     } else if (
       fieldName === "sender_address" &&
       !testnet4AddressRegex.test(value)
     ) {
-      return "Voer een valide (testnet4) BTC adres.";
+      return "Insert valid (testnet4) BTC address.";
     }
 
     if (fieldName === "recipient_address" && value === "") {
-      return "BTC Adres van de ontvanger is verplicht.";
+      return "BTC address from receiver is obligatory";
     } else if (
       fieldName === "recipient_address" &&
       !testnet4AddressRegex.test(value)
     ) {
-      return "Voer een valide (testnet4) BTC adres.";
+      return "Insert valid (testnet4) BTC address.";
     }
 
     if (fieldName === "amount_to_spend") {
       if (isNaN(value) || value <= 0) {
-        return "Bedrag moet een positief getal zijn.";
+        return "Amount must be a positive number";
       }
     }
 
     if (fieldName === "fee") {
       if (isNaN(value) || value <= 0) {
-        return "Transactiekosten moet een positieve getal zijn.";
+        return "Transaction costs must be a positive number";
       }
     }
 
     if (fieldName === "fee" && value < calculatedFee) {
-      return `De ingevulde transactiekosten zijn te laag. De transactiekosten moeten minimaal ${
+      return `Minimal transaction cost: ${
         calculatedFee - value
-      } zijn.`;
+      }`;
     }
 
     return "";
@@ -110,7 +110,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
         setMessageState({
           message: (
             <>
-              Uw transactie is succesvol aangemaakt. Volg deze via:{" "}
+              Transaction created succesfully. Follow: {" "}
               <a
                 className="font-bold"
                 href={linkToTransaction}
@@ -134,7 +134,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
         setSummaryData({});
       } else if (isTransactionSend === 403) {
         setMessageState({
-          message: `Opgegeven wallet is niet gevonden. Probeer het opnieuw.`,
+          message: `Inserted wallet is not found. Try again`,
           type: "error",
           closed: false,
         });
@@ -147,7 +147,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
         setSummaryData({});
       } else {
         setMessageState({
-          message: `Invalide gegevens ingevoerd. Probeer het opnieuw.`,
+          message: `Invalid data inserted. Try again`,
           type: "error",
           closed: false,
         });
@@ -160,7 +160,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
       }
     } catch (error) {
       setMessageState({
-        message: `Er is een fout opgetreden. Probeer het later opnieuw.`,
+        message: `An error has occured. Try again`,
         type: "error",
         closed: false,
       });
@@ -182,7 +182,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           htmlFor="sender_address"
           className="block text-sm font-medium text-gray-900 mb-1"
         >
-          Verzender adres
+          Sender address
         </label>
         <input
           type="text"
@@ -190,7 +190,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           id="sender_address"
           value={formData.sender_address}
           onChange={handleChange}
-          placeholder="BTC Adres van de verzender"
+          placeholder="BTC address from sender"
           className={`bg-gray-50 border focus:outline text-gray-900 rounded-lg block w-full p-2.5 ${
             errors.sender_address
               ? "focus:outline-red-200 border-red-600"
@@ -209,7 +209,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           htmlFor="recipient_address"
           className="block text-sm font-medium text-gray-900 mb-1"
         >
-          Ontvanger adres
+          Receiver address
         </label>
         <input
           type="text"
@@ -217,7 +217,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           id="recipient_address"
           value={formData.recipient_address}
           onChange={handleChange}
-          placeholder="BTC Adres van de ontvanger"
+          placeholder="BTC address from receiver"
           className={`bg-gray-50 border focus:outline text-gray-900 rounded-lg block w-full p-2.5 ${
             errors.recipient_address
               ? "focus:outline-red-200 border-red-600"
@@ -238,7 +238,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           htmlFor="amount_to_spend"
           className="block text-sm font-medium text-gray-900 mb-1"
         >
-          Te verzenden bedrag (BTC)
+          Sending amount (BTC)
         </label>
         <input
           type="text"
@@ -246,7 +246,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           id="amount_to_spend"
           value={formData.amount_to_spend}
           onChange={handleChange}
-          placeholder="Bijv. 0.001"
+          placeholder="For example: 0.00125"
           className={`bg-gray-50 border focus:outline text-gray-900 rounded-lg block w-full p-2.5 ${
             errors.amount_to_spend
               ? "focus:outline-red-200 border-red-600"
@@ -265,7 +265,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           htmlFor="fee"
           className="block text-sm font-medium text-gray-900 mb-1"
         >
-          Transactiekosten (BTC)
+          Transaction costs (BTC)
         </label>
         <input
           type="text"
@@ -273,7 +273,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           id="fee"
           value={formData.fee}
           onChange={handleChange}
-          placeholder="Bijv. 0.0001"
+          placeholder="For example: 0.00012"
           className={`bg-gray-50 border focus:outline text-gray-900 rounded-lg block w-full p-2.5 ${
             errors.fee
               ? "focus:outline-red-200 border-red-600"
@@ -291,7 +291,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
         type="submit"
         className="w-full bg-indigo-600 text-white py-2.5 px-4 rounded-lg shadow-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-300"
       >
-        Verstuur transactie
+        Send transaction
       </button>
     </form>
   );

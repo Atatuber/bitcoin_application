@@ -5,24 +5,23 @@ export default function Footer() {
         <span className="text-sm text-gray-500 sm:text-center">
           © 2025{" "}
           <a href="/" className="hover:underline">
-            ChainVault™
-          </a>
-          . Alle Rechten Voorbehouden.
+            ChainVault™.
+          </a> All rights reserved.
         </span>
         <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 sm:mt-0">
           <li>
             <a href="#" className="hover:underline me-4 md:me-6">
-              Over mij
+              About
             </a>
           </li>
           <li>
             <a href="#" className="hover:underline me-4 md:me-6">
-              Privacybeleid
+              Privacy policy
             </a>
           </li>
           <li>
             <a href="#" className="hover:underline me-4 md:me-6">
-              Rechten en voorwaarden
+              Rights and licensing
             </a>
           </li>
           <li>

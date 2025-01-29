@@ -19,10 +19,10 @@ export default function AddWalletForm({ accountId, setMessageState }) {
   const validateField = (fieldName, value) => {
     if (fieldName === "name") {
       if (value === "") {
-        return "Wallet naam is verplicht.";
+        return "Name is obligatory";
       }
       if (value.length < 3 || value.length > 50) {
-        return "Wallet naam moet tussen de 3 en 50 karakters zijn.";
+        return "Name must be between 3 - 50 characters";
       }
     }
     return "";
@@ -50,7 +50,7 @@ export default function AddWalletForm({ accountId, setMessageState }) {
     } else {
       setMessageState({
         message:
-          "Er is iets misgegaan bij het aanmaken van de wallet. Probeer het later opnieuw.",
+          "Something went wrong. Try again later",
         closed: false,
       });
     }
@@ -63,7 +63,7 @@ export default function AddWalletForm({ accountId, setMessageState }) {
           htmlFor="name"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          Wallet naam
+          Wallet name
         </label>
         <input
           type="name"
@@ -78,7 +78,7 @@ export default function AddWalletForm({ accountId, setMessageState }) {
               ? "focus:outline-green-200 border-green-600"
               : "focus:outline-indigo-200 border-gray-300"
           }`}
-          placeholder="Mijn nieuwe wallet"
+          placeholder="My new wallet"
         />
         {errors.name && (
           <p className="text-red-600 font-medium text-sm">
@@ -90,7 +90,7 @@ export default function AddWalletForm({ accountId, setMessageState }) {
         type="submit"
         className="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
-        Wallet aanmaken
+        Create wallet
       </button>
     </form>
   );

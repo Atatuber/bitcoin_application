@@ -4,12 +4,12 @@ export default function WelcomeSection({ username }) {
       <div className="container mx-auto my-auto text-left">
         <div className="flex flex-col w-full p-10">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welkom, {username}
+            Welcome, {username}
           </h1>
           <p className="text-gray-600 mb-4 leading-relaxed text-base">
-            Dit is een demo van een Bitcoin Wallet. Hier kunt u uw Bitcoin
-            Wallets beheren. U kunt een nieuwe wallet toevoegen, uw huidige
-            wallets bekijken en de balans van uw wallets bekijken.
+            This is a demo of a Bitcoin wallet manager. Here you can manage your Bitcoin
+            wallets. You can add a new wallet, view your current wallets, and
+            check the balance of your wallets.
           </p>
         </div>
       </div>

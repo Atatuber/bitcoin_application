@@ -4,11 +4,13 @@ export const getHeaderName = (location) => {
     case "/":
       return "Home";
     case "/wallets/add":
-      return "Wallet toevoegen";
+      return "Add wallet";
     case "/login":
-      return "Inloggen";
+      return "Login";
     case "/transactions/add":
-      return "Transactie maken"
+      return "Create transaction";
+    case "/transactions":
+      return "Transactions";
     default:
       return "ChainVault";
   }

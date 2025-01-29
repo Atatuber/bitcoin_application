@@ -5,17 +5,16 @@ export default function QuickAccessSection() {
     <section className="text-gray-600 body-font bg-white rounded-lg shadow-md m-2 flex justify-center items-center">
       <div className="container mx-auto my-auto text-left">
         <div className="flex flex-col w-full p-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Handige links
+          <h1 className="text-3xl font-bold text-gray-900">
+            Quick Access Menu
           </h1>
-          <p className="text-gray-600 text-base mb-4">
-            Gebruik deze links om snel toegang te krijgen tot belangrijke
-            functies.
+          <p className="text-gray-600 text-base">
+            Navigate to the most used functions
           </p>
           <div className="flex justify-start items-center flex-wrap gap-6 mt-4">
             <QuickLink
               to="/transactions/add"
-              text="Transactie aanmaken"
+              text="Create transaction"
               svgIcon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -32,11 +31,11 @@ export default function QuickAccessSection() {
                   />
                 </svg>
               }
-              color="bg-orange-600 hover:bg-orange-700"
+              color="bg-indigo-500 hover:bg-indigo-700 transition ease-in-out duration-200"
             />
             <QuickLink
               to="/transactions"
-              text="Alle transacties"
+              text="All transactions"
               svgIcon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -53,11 +52,11 @@ export default function QuickAccessSection() {
                   />
                 </svg>
               }
-              color="bg-sky-600 hover:bg-sky-700"
+              color="bg-indigo-500 hover:bg-indigo-700 transition ease-in-out duration-200"
             />
             <QuickLink
               to="/wallets/add"
-              text="Wallet aanmaken"
+              text="Create BTC wallet"
               svgIcon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +73,7 @@ export default function QuickAccessSection() {
                   />
                 </svg>
               }
-              color="bg-teal-600 hover:bg-teal-700"
+              color="bg-indigo-500 hover:bg-indigo-700 transition ease-in-out duration-200"
             />
           </div>
         </div>

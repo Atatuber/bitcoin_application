@@ -34,10 +34,10 @@ export default function HomePage() {
     return (
       <div>
         <h1 className="text-2xl font-bold flex justify-center items-center ">
-          Er is een fout opgetreden.
+          Something went wrong.
         </h1>
         <p className="text-gray-600 text-md font-medium flex justify-center items-center">
-          Probeer het later opnieuw.
+          Try again later.
         </p>
       </div>
     );

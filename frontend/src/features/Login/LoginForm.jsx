@@ -29,7 +29,7 @@ export default function LoginForm({ setMessageState }) {
     }
     if (loggedIn === 401) {
       setMessageState({
-        message: "E-mail of wachtwoord is onjuist.",
+        message: "E-mail or password incorrect",
       });
       setFormData((prev) => ({
         ...prev,
@@ -38,7 +38,7 @@ export default function LoginForm({ setMessageState }) {
     }
     if (loggedIn === 500) {
       setMessageState({
-        message: "Er is iets fout gegaan, probeer het later opnieuw.",
+        message: "Something went wrong, please try again",
       });
       setFormData((prev) => ({
         ...prev,
@@ -63,7 +63,7 @@ export default function LoginForm({ setMessageState }) {
           id="email"
           value={formData.email}
           className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5"
-          placeholder="mijnemail@voorbeeld.nl"
+          placeholder="chainvault@example.com"
         />
       </div>
       <div>
@@ -71,7 +71,7 @@ export default function LoginForm({ setMessageState }) {
           htmlFor="password"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          Wachtwoord
+          Password
         </label>
         <input
           type="password"
@@ -87,18 +87,18 @@ export default function LoginForm({ setMessageState }) {
           href="#"
           className="flex text-sm font-medium text-indigo-600 hover:underline"
         >
-          Wachtwoord vergeten?
+          Forgot password?
         </a>
       <button
         type="submit"
         className="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
-        Inloggen
+        Login
       </button>
       <p className="text-sm font-light text-gray-500">
-        Nog geen account?{" "}
+        No account?{" "}
         <a href="#" className="font-medium text-indigo-600 hover:underline">
-          Account maken
+          Sign up
         </a>
       </p>
     </form>

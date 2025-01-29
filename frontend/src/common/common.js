@@ -14,13 +14,13 @@ export function formatMessage({ address, amount, fee, role }) {
 
   if (role === "sender") {
     return {
-      title: address ? address : "Jouw BTC adres",
-      description: `stuurt ${formattedAmount} BTC met ${formattedFee} BTC aan transactiekosten.`,
+      title: address ? address : "Your BTC address",
+      description: `sends ${formattedAmount} BTC with ${formattedFee} BTC transction costs.`,
     };
   } else if (role === "recipient") {
     return {
-      title: address ? address : "Ontvanger BTC adres",
-      description: `ontvangt ${formattedAmount} BTC.`,
+      title: address ? address : "Receiver BTC address",
+      description: `gets ${formattedAmount} BTC.`,
     };
   }
   return null;

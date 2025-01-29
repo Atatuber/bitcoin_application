@@ -68,12 +68,11 @@ export default function TransactionsPage() {
     indexOfLastPost
   );
 
-  console.log(currentTransactions);
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-6">
       <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-2">
-        <h1 className="text-3xl font-bold">Alle transacties</h1>
-        <p className="text-gray-600">Bekijk hier al uw transacties</p>
+        <h1 className="text-3xl font-bold">All transactions</h1>
+        <p className="text-gray-600">View all your transactions</p>
         {currentTransactions !== null && currentTransactions.length > 0 ? (
           <div className="overflow-x-auto shadow-lg rounded-lg m-2">
             <TransactionsTable transactions={currentTransactions} />
@@ -128,15 +127,15 @@ export default function TransactionsPage() {
             </div>
           </div>
         ) : (
-          <p className="text-gray-600 p-2">Geen transacties gevonden</p>
+          <p className="text-gray-600 p-2">No transactions found</p>
         )}
       </section>
 
       <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-1">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">Alle wallets</h1>
-            <p className="text-gray-600">Bekijk hier al uw wallets</p>
+            <h1 className="text-3xl font-bold">All wallets</h1>
+            <p className="text-gray-600">View all your BTC wallets</p>
           </div>
           <DeleteFilterButton
             filteredAddress={filteredAddress}
@@ -152,7 +151,7 @@ export default function TransactionsPage() {
             />
           </div>
         ) : (
-          <p className="p-2 text-gray-600 font-medium">Geen wallets gevonden</p>
+          <p className="p-2 text-gray-600 font-medium">No wallets found</p>
         )}
       </section>
     </div>

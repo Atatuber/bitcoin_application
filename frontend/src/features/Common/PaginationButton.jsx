@@ -7,7 +7,7 @@ export default function PaginationButton({ isNext, onClick, disabled }) {
     >
       {isNext ? (
         <>
-          Volgende
+          Next
           <div className="m-1"></div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ export default function PaginationButton({ isNext, onClick, disabled }) {
             />
           </svg>
           <div className="m-1"></div>
-          Vorige
+          Previous
         </>
       )}
     </button>
@@ -52,7 +52,7 @@ export default function PaginationButton({ isNext, onClick, disabled }) {
     >
       {isNext ? (
         <>
-          Volgende
+          Next
           <div className="m-1"></div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ export default function PaginationButton({ isNext, onClick, disabled }) {
             />
           </svg>
           <div className="m-1"></div>
-          Vorige
+          Previous
         </>
       )}
     </button>

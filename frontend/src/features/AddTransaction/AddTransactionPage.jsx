@@ -78,8 +78,8 @@ export default function AddTransactionPage() {
       </div>
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
-          <h1 className="text-2xl font-bold text-gray-900">Transactie maken</h1>
-          <p className="text-gray-600 text-sm mb-4">Maak hier uw transactie.</p>
+          <h1 className="text-2xl font-bold text-gray-900">Create transaction</h1>
+          <p className="text-gray-600 text-sm mb-4">Send BTC using your wallets</p>
           <TransactionForm
             setMessageState={setMessageState}
             setSummaryData={setSummaryData}
@@ -90,10 +90,10 @@ export default function AddTransactionPage() {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="w-full">
               <h1 className="text-2xl font-bold text-gray-900">
-                Beschikbare wallets
+                Available wallets
               </h1>
               <p className="text-gray-600 text-sm mb-4">
-                Bekijk hier uw bestaande wallets.
+                See your available wallets
               </p>
               {wallets.length > 0 ? (
                 <div className="overflow-x-auto shadow-md rounded-lg">
@@ -101,21 +101,21 @@ export default function AddTransactionPage() {
                 </div>
               ) : (
                 <p className="text-gray-600 text-md font-medium">
-                  Er zijn geen wallets gevonden.
+                  No BTC wallets found
                 </p>
               )}
             </div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg flex-grow">
             <h2 className="text-xl font-bold text-gray-900">
-              Transactie details
+              Transaction details details
             </h2>
             <p className="text-gray-600 text-sm mb-4">
-              De uitkomst van uw transactie.
+              Results from your transaction
             </p>
             <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
               <Card
-                title="Verzender"
+                title="Sender"
                 message={
                   <span>
                     <strong>{senderMessage.title}</strong>{" "}
@@ -124,7 +124,7 @@ export default function AddTransactionPage() {
                 }
               />
               <Card
-                title="Ontvanger"
+                title="Receiver"
                 message={
                   <span>
                     <strong>{recipientMessage.title}</strong>{" "}

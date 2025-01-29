@@ -10,13 +10,13 @@ export default function WalletTable({
       <thead className="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
           <th scope="col" className="px-6 py-3">
-            Adres
+            Address
           </th>
           <th scope="col" className="px-6 py-3">
-            Saldo
+            Balance
           </th>
           <th scope="col" className="px-6 py-3">
-            Acties
+            Filter
           </th>
         </tr>
       </thead>

@@ -41,7 +41,7 @@ export default function ProtectedRoute() {
   if (isAuthenticated === null) {
     return (
       <h1 className="flex justify-center items-center font-bold text-xl">
-        Laden...
+        Loading...
       </h1>
     );
   }

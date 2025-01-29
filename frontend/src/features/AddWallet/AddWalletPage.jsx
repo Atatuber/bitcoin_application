@@ -31,10 +31,10 @@ export default function AddWalletPage() {
         <div className="space-y-4 md:space-y-4 sm:p-6">
           <div>
             <h1 className="text-xl text-left font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Wallet toevoegen
+              Create BTC Wallet
             </h1>
             <p className="text-sm text-gray-600 text-left">
-              Voeg een nieuwe wallet toe aan je account.
+              Add a new BTC wallet to your account
             </p>
           </div>
           <AddWalletForm
