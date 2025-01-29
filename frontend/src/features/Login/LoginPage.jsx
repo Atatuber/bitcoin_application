@@ -53,7 +53,7 @@ export default function LoginPage() {
         </a>
         <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            <h1 className="text-xl text-center font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Log in
             </h1>
             <LoginForm setMessageState={setMessageState} />
