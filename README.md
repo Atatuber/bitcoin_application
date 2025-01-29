@@ -80,16 +80,21 @@ Before you begin, ensure you have the following installed on your system:
     (python3 -m) pip install flask-jwt-extended
     (python3 -m) pip install pandas
     (python3 -m) pip install psycopg2
-    (python3 -m) pip install sqlcipher3-binary
     ```
+5. **Setup .env file**
 
-5. **Navigate to the Source Directory:**
+    - Create .env file in **bitcoin_application** directory.
+    - Setup AES_SECRET_KEY variable, example:
+       ```bash
+       AES_SECRET_KEY='your_secret_key_here'
+
+6. **Navigate to the Source Directory:**
 
     ```bash
     cd src
     ```
 
-6. **Run the Backend Application:**
+7. **Run the Backend Application:**
 
     ```bash
     # Using Flask's CLI
@@ -99,7 +104,7 @@ Before you begin, ensure you have the following installed on your system:
     python main.py  # or python3 main.py
     ```
 
-   The backend server should now be running, typically accessible at `http://localhost:5000` (check your Flask configuration for the exact URL).
+   The backend server should now be running, typically accessible at `http://localhost:127.0.0.1` (check your Flask configuration for the exact URL).
 
 ---
 
@@ -116,7 +121,8 @@ bitcoin_application/
 │   │   ├── main.py
 │   │   └── ... (other backend files)
 │   └── ... (other backend files)
-└── README.md
+├── README.md
+└── .env
 ```
 
 ---
