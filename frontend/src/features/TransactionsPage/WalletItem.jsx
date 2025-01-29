@@ -3,11 +3,11 @@ export default function WalletItem({
   setFilteredAddress,
   filteredAddress,
 }) {
-  const isChecked = wallet.key_address === filteredAddress;
+  const isChecked = wallet.address === filteredAddress;
 
   const handleChange = (event) => {
     if (event.target.checked) {
-      setFilteredAddress(wallet.key_address);
+      setFilteredAddress(wallet.address);
     } else {
       setFilteredAddress("");
     }
@@ -15,9 +15,9 @@ export default function WalletItem({
 
   return (
     <tr className="bg-white border-b hover:bg-gray-50">
-      <td className="px-6 py-4">{wallet.key_address}</td>
+      <td className="px-6 py-4">{wallet.address}</td>
       <td className="px-6 py-4">
-        <span className="font-bold text-gray-600">{wallet.key_balance}</span>{" "}
+        <span className="font-bold text-gray-600">{wallet.balance}</span>{" "}
         BTC
       </td>
       <td className="px-6 py-4">
@@ -25,12 +25,12 @@ export default function WalletItem({
           <input
             onChange={handleChange}
             type="radio"
-            id={`filter-${wallet.key_address}`}
+            id={`filter-${wallet.address}`}
             name="filter"
-            value={wallet.key_address}
+            value={wallet.address}
             checked={isChecked}
           />
-          <label htmlFor={`filter-${wallet.key_address}`}>
+          <label htmlFor={`filter-${wallet.address}`}>
             Filter deze wallet
           </label>
         </span>

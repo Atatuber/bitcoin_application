@@ -78,7 +78,7 @@ def createBitcoinWallet(account_id, name):
 def updateWalletBalanceWithAccountId(account_id):
     try:
         wallets_and_keys = getWalletsAndKeysById(account_id)
-        key_addresses = [entry['key_address'] for entry in wallets_and_keys] 
+        key_addresses = [entry['address'] for entry in wallets_and_keys] 
 
         if not key_addresses:
             print(f"No addresses found for account_id: {account_id}")

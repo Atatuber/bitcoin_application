@@ -1,1 +1,0 @@
-SELECT w.wallet_id, w.account_id, k.key_id, w.name, k.balance, w.mnemonic, w.network, w.created_at, k.key_public, k.key_private, k.address, k.path, k.created_at FROM wallets w INNER JOIN keys k ON w.wallet_id = k.wallet_id WHERE w.account_id = 1;

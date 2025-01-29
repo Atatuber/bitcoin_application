@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS keys;
 DROP TABLE IF EXISTS wallets;
 DROP TABLE IF EXISTS accounts;
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 CREATE TABLE accounts (
     account_id SERIAL PRIMARY KEY,           
     username VARCHAR(50) NOT NULL UNIQUE,       
@@ -19,7 +21,7 @@ CREATE TABLE wallets (
     wallet_id SERIAL PRIMARY KEY,
     account_id SERIAL NOT NULL REFERENCES accounts(account_id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
-    mnemonic TEXT NOT NULL,
+    mnemonic BYTEA NOT NULL,
     network VARCHAR(50) DEFAULT 'testnet',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -27,8 +29,8 @@ CREATE TABLE wallets (
 CREATE TABLE keys (
     key_id SERIAL PRIMARY KEY,
     wallet_id INT REFERENCES wallets(wallet_id) ON DELETE CASCADE,
-    key_public TEXT NOT NULL,
-    key_private TEXT NOT NULL,
+    key_public BYTEA NOT NULL,
+    key_private BYTEA NOT NULL,
     path TEXT NOT NULL,
     address VARCHAR(255) UNIQUE NOT NULL,
     balance NUMERIC DEFAULT 0,
