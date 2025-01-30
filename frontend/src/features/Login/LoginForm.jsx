@@ -82,8 +82,9 @@ export default function LoginForm({ setMessageState }) {
           onChange={handleChange}
           id="email"
           value={formData.email}
-          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5"
+          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5 disabled:bg-gray-200"
           placeholder="chainvault@example.com"
+          disabled={loadingState.isLoading || loadingState.loadingMessage}
         />
       </div>
       <div>
@@ -100,7 +101,8 @@ export default function LoginForm({ setMessageState }) {
           id="password"
           value={formData.password}
           placeholder="••••••••"
-          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5"
+          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5 disabled:bg-gray-200"
+          disabled={loadingState.isLoading || loadingState.loadingMessage}
         />
       </div>
       <a
@@ -111,7 +113,7 @@ export default function LoginForm({ setMessageState }) {
       </a>
       <button
         type="submit"
-        className="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        className="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:bg-indigo-800"
         disabled={loadingState.isLoading || loadingState.loadingMessage}
       >
         {loadingState.isLoading ? (

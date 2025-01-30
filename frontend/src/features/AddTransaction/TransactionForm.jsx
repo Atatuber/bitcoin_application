@@ -1,11 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { hasErrors } from "../../common/common";
 import { calculateFee } from "../../common/common";
 import { sendTransaction } from "../../api/transaction";
 import { getUserData } from "../../common/retrieveuserdata";
 
-export default function TransactionForm({ setMessageState, setSummaryData, refreshData }) {
+export default function TransactionForm({
+  setMessageState,
+  setSummaryData,
+  refreshWallets,
+}) {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     sender_address: "",
     recipient_address: "",
@@ -57,9 +64,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
     }
 
     if (fieldName === "fee" && value < calculatedFee) {
-      return `Minimal transaction cost: ${
-        calculatedFee - value
-      }`;
+      return `Minimal transaction cost: ${calculatedFee - value}`;
     }
 
     return "";
@@ -110,7 +115,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
         setMessageState({
           message: (
             <>
-              Transaction created succesfully. Follow: {" "}
+              Transaction created succesfully. Follow:{" "}
               <a
                 className="font-bold"
                 href={linkToTransaction}
@@ -124,7 +129,7 @@ export default function TransactionForm({ setMessageState, setSummaryData, refre
           type: "success",
           closed: false,
         });
-        refreshData();
+        refreshWallets();
         setFormData({
           sender_address: "",
           recipient_address: "",

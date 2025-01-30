@@ -34,6 +34,8 @@ export default function TransactionsPage() {
   const [filteredAddress, setFilteredAddress] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const sortedWallets = [...wallets].sort((a, b) => b.balance - a.balance);
+
   const filterTransactions = (transactions, filteredAddress) => {
     if (!transactions) return [];
 
@@ -151,7 +153,7 @@ export default function TransactionsPage() {
         {wallets && wallets.length > 0 ? (
           <div className="overflow-x-auto shadow-lg rounded-lg m-2">
             <WalletTable
-              wallets={wallets}
+              wallets={sortedWallets}
               filteredAddress={filteredAddress}
               setFilteredAddress={setFilteredAddress}
               isTransactionPage={true}

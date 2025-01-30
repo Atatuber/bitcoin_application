@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 import { getUserData } from "../../common/retrieveuserdata";
 import { getUserWalletsAndKeysById } from "../../api/bitcoin";
@@ -23,8 +23,9 @@ export async function loader() {
 }
 
 export default function AddTransactionPage() {
-  const { wallets } = useLoaderData();
-  const navigate = useNavigate();
+  const { wallets: initialWallets } = useLoaderData();
+
+  const [wallets, setWallets] = useState(initialWallets);
 
   const [messageState, setMessageState] = useState({
     message: "",
@@ -52,9 +53,19 @@ export default function AddTransactionPage() {
     role: "recipient",
   });
 
-  const refreshData = () => {
-    navigate(`.`, { replace: true });
+  const refreshWallets = async () => {
+    try {
+      const userData = await getUserData();
+      const updatedWallets = await getUserWalletsAndKeysById(
+        userData.account_id
+      );
+      setWallets(updatedWallets);
+    } catch {
+      setWallets([]);
+    }
   };
+
+  const sortedWallets = [...wallets].sort((a, b) => b.balance - a.balance);
 
   return (
     <section className="bg-gray-50 py-12 flex flex-col items-center justify-center">
@@ -78,12 +89,16 @@ export default function AddTransactionPage() {
       </div>
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
-          <h1 className="text-2xl font-semibold text-gray-900">Create transaction</h1>
-          <p className="text-gray-600 text-sm mb-4">Send BTC using your wallets</p>
+          <h1 className="text-2xl font-semibold text-gray-900">
+            Create transaction
+          </h1>
+          <p className="text-gray-600 text-sm mb-4">
+            Send BTC using your wallets
+          </p>
           <TransactionForm
             setMessageState={setMessageState}
             setSummaryData={setSummaryData}
-            refreshData={refreshData}
+            refreshWallets={refreshWallets}
           />
         </div>
         <div className="flex flex-col gap-6 h-full">
@@ -97,7 +112,7 @@ export default function AddTransactionPage() {
               </p>
               {wallets.length > 0 ? (
                 <div className="overflow-x-auto shadow-md rounded-lg">
-                  <WalletTable wallets={wallets} />
+                  <WalletTable wallets={sortedWallets} />
                 </div>
               ) : (
                 <p className="text-gray-600 text-md font-medium">

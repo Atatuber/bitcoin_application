@@ -13,7 +13,7 @@ export async function loader() {
   try {
     const userData = await getUserData();
 
-    if(userData === null) {
+    if (userData === null) {
       return;
     }
     const [wallets, transactions] = await Promise.all([
@@ -29,6 +29,8 @@ export async function loader() {
 
 export default function HomePage() {
   const { userData, wallets, transactions } = useLoaderData();
+
+  const sortedWallets = [...wallets].sort((a, b) => b.balance - a.balance);
 
   if (wallets === null) {
     return (
@@ -46,7 +48,10 @@ export default function HomePage() {
   return (
     <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 p-4">
       <WelcomeSection username={userData.username} />
-      <WalletsSection wallets={wallets} headerMsg={"Beschikbare wallets"} />
+      <WalletsSection
+        wallets={sortedWallets}
+        headerMsg={"Beschikbare wallets"}
+      />
       <QuickAccessSection />
       <TransactionsSection transactions={transactions} />
     </div>
