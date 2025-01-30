@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -25,10 +25,15 @@ const router = createBrowserRouter(
     <>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<Index />}>
-        <Route element={<ProtectedRoute />} loader={async () => {
-          const { loader: ProtectedRouteLoader } = await import("./features/Auth/ProtectedRoute");
-          return ProtectedRouteLoader();
-        }}>
+        <Route
+          element={<ProtectedRoute />}
+          loader={async () => {
+            const { loader: ProtectedRouteLoader } = await import(
+              "./features/Auth/ProtectedRoute"
+            );
+            return ProtectedRouteLoader();
+          }}
+        >
           <Route
             index
             element={<HomePage />}
@@ -77,8 +82,6 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

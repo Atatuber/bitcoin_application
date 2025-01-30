@@ -82,7 +82,7 @@ export default function LoginForm({ setMessageState }) {
           onChange={handleChange}
           id="email"
           value={formData.email}
-          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5 disabled:bg-gray-200"
+          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300 rounded-lg block w-full p-2.5 disabled:bg-gray-100"
           placeholder="chainvault@example.com"
           disabled={loadingState.isLoading || loadingState.loadingMessage}
         />
@@ -101,7 +101,7 @@ export default function LoginForm({ setMessageState }) {
           id="password"
           value={formData.password}
           placeholder="••••••••"
-          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5 disabled:bg-gray-200"
+          className="bg-gray-50 border text-gray-900 focus:outline focus:outline-indigo-300  rounded-lg block w-full p-2.5 disabled:bg-gray-100"
           disabled={loadingState.isLoading || loadingState.loadingMessage}
         />
       </div>
