@@ -2,7 +2,7 @@
 
 ## **Bitcoin (TESTNET) Tracking Application**
 
-Easily manage, track and send bitcoin using your Bitcoin wallets!
+Easily manage, track, send and receive bitcoin using your Bitcoin wallets!
 
 ---
 
