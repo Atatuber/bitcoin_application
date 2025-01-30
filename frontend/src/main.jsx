@@ -25,15 +25,10 @@ const router = createBrowserRouter(
     <>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<Index />}>
-        <Route
-          element={<ProtectedRoute />}
-          loader={async () => {
-            const { loader: ProtectedRouteLoader } = await import(
-              "./features/Auth/ProtectedRoute"
-            );
-            return ProtectedRouteLoader();
-          }}
-        >
+        <Route element={<ProtectedRoute />} loader={async () => {
+          const { loader: ProtectedRouteLoader } = await import("./features/Auth/ProtectedRoute");
+          return ProtectedRouteLoader();
+        }}>
           <Route
             index
             element={<HomePage />}
