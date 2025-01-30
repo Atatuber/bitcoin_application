@@ -5,7 +5,7 @@ export default function SuccessWithInfo(props) {
   return !props.isWalletCreated ? (
     <></>
   ) : (
-    <div className="w-full bg-white rounded-lg shadow-lg p-6 sm:max-w-md mx-auto">
+    <section className="w-full bg-white rounded-lg shadow-lg p-6 sm:max-w-md mx-auto">
       <div className="flex items-center justify-start gap-3">
         <img src={walletIcon} className="size-32" alt="Wallet icon" />
         <h1 className="text-2xl font-semibold">Wallet Created Successfully</h1>
@@ -50,6 +50,6 @@ export default function SuccessWithInfo(props) {
           Go back home
         </Link>
       </div>
-    </div>
+    </section>
   );
 }

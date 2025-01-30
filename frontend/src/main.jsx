@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -8,54 +8,82 @@ import {
 } from "react-router-dom";
 
 import Index from "./features/Index/Index";
-
-import HomePage, { loader as HomeLoader } from "./features/Home/HomePage";
 import LoginPage from "./features/Login/LoginPage";
 import ProtectedRoute from "./features/Auth/ProtectedRoute";
-import AddWalletPage, {
-  loader as UserLoader,
-} from "./features/AddWallet/AddWalletPage";
-import AddTransactionPage, {
-  loader as WalletLoader,
-} from "./features/AddTransaction/AddTransactionPage";
-import TransactionsPage, {loader as WalletsAndTransactionsLoader} from "./features/TransactionsPage/TransactionsPage";
+
+const HomePage = lazy(() => import("./features/Home/HomePage"));
+const AddWalletPage = lazy(() => import("./features/AddWallet/AddWalletPage"));
+const AddTransactionPage = lazy(() =>
+  import("./features/AddTransaction/AddTransactionPage")
+);
+const TransactionsPage = lazy(() =>
+  import("./features/TransactionsPage/TransactionsPage")
+);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<Index />}>
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<HomePage />} loader={HomeLoader} />
+        <Route
+          element={<ProtectedRoute />}
+          loader={async () => {
+            const { loader: ProtectedRouteLoader } = await import(
+              "./features/Auth/ProtectedRoute"
+            );
+            return ProtectedRouteLoader();
+          }}
+        >
           <Route
-            path="/wallets/add"
+            index
+            element={<HomePage />}
+            loader={async () => {
+              const { loader: HomeLoader } = await import(
+                "./features/Home/HomePage"
+              );
+              return HomeLoader();
+            }}
+          />
+          <Route
+            path="wallets/add"
             element={<AddWalletPage />}
-            loader={UserLoader}
+            loader={async () => {
+              const { loader: UserLoader } = await import(
+                "./features/AddWallet/AddWalletPage"
+              );
+              return UserLoader();
+            }}
           />
           <Route
-            path="/transactions/add"
+            path="transactions/add"
             element={<AddTransactionPage />}
-            loader={WalletLoader}
+            loader={async () => {
+              const { loader: WalletLoader } = await import(
+                "./features/AddTransaction/AddTransactionPage"
+              );
+              return WalletLoader();
+            }}
           />
-          <Route path="/transactions" element={<TransactionsPage />} loader={WalletsAndTransactionsLoader} />
+          <Route
+            path="transactions"
+            element={<TransactionsPage />}
+            loader={async () => {
+              const { loader: WalletsAndTransactionsLoader } = await import(
+                "./features/TransactionsPage/TransactionsPage"
+              );
+              return WalletsAndTransactionsLoader();
+            }}
+          />
         </Route>
       </Route>
     </>
-  ),
-  {
-    future: {
-      v7_startTransition: true,
-      v7_relativeSplatPath: true,
-      v7_fetcherPersist: true,
-      v7_normalizeFormMethod: true,
-      v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true,
-    },
-  }
+  )
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
   </React.StrictMode>
 );

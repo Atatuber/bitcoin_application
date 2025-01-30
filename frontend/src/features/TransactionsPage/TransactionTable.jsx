@@ -21,7 +21,7 @@ export default function TransactionTable({ transactions }) {
             Timestamp
           </th>
           <th scope="col" className="px-6 py-3">
-            Actions
+            Link
           </th>
         </tr>
       </thead>

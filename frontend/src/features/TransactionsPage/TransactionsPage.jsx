@@ -5,8 +5,8 @@ import { getUserWalletsAndKeysById } from "../../api/bitcoin";
 import { getTransactionsConnectedToAccount } from "../../api/transaction";
 import { useLoaderData } from "react-router-dom";
 
-import WalletTable from "./WalletTable";
-import TransactionsTable from "./TransactionsTable";
+import WalletTable from "../Common/WalletTable";
+import TransactionTable from "./TransactionTable";
 import DeleteFilterButton from "./DeleteFilterButton";
 import Pagination from "../Common/Pagination";
 import PaginationButton from "../Common/PaginationButton";
@@ -75,7 +75,13 @@ export default function TransactionsPage() {
         <p className="text-gray-600">View all your transactions</p>
         {currentTransactions !== null && currentTransactions.length > 0 ? (
           <div className="overflow-x-auto shadow-lg rounded-lg m-2">
-            <TransactionsTable transactions={currentTransactions} />
+            {currentTransactions !== null ? (
+              <TransactionTable transactions={currentTransactions} />
+            ) : (
+              <p className="p-2 text-gray-600 font-medium">
+                Geen transacties gevonden
+              </p>
+            )}
             <div className="flex flex-col sm:flex-row justify-between items-center p-4 gap-4">
               {currentPage <= 1 ? (
                 <PaginationButton
@@ -148,6 +154,7 @@ export default function TransactionsPage() {
               wallets={wallets}
               filteredAddress={filteredAddress}
               setFilteredAddress={setFilteredAddress}
+              isTransactionPage={true}
             />
           </div>
         ) : (

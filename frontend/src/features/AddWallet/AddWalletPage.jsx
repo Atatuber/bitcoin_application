@@ -28,34 +28,23 @@ export default function AddWalletPage() {
 
   return (
     <section className="flex flex-col items-center justify-center bg-gray-50 gap-2 m-4">
-      <div
-        className={`transition-all duration-500 ease-in-out ${
-          walletCreated.isWalletCreated
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-4 pointer-events-none"
-        }`}
-      >
+      {walletCreated.isWalletCreated && (
         <SuccessWithInfo
           walletName={walletCreated.walletName}
           mnemonic={walletCreated.mnemonic}
           privateKey={walletCreated.privateKey}
           isWalletCreated={walletCreated.isWalletCreated}
         />
-      </div>
+      )}
 
-      <div
-        className={`${
-          walletCreated.isWalletCreated
-            ? "opacity-0 -translate-y-4 pointer-events-none"
-            : "opacity-100 translate-y-0"
-        }`}
-      >
-        {messageState.message && !messageState.closed && (
-          <ErrorAlert
-            message={messageState.message}
-            setMessageState={setMessageState}
-          />
-        )}
+      {messageState.message && !messageState.closed && (
+        <ErrorAlert
+          message={messageState.message}
+          setMessageState={setMessageState}
+        />
+      )}
+
+      {!walletCreated.isWalletCreated && (
         <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="space-y-4 md:space-y-4 sm:p-6">
             <div>
@@ -74,7 +63,7 @@ export default function AddWalletPage() {
             />
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

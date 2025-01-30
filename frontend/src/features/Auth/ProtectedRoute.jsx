@@ -1,50 +1,33 @@
-import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-
+import { Outlet, useNavigate, useLoaderData } from "react-router-dom";
 import { checkUser } from "../../api/auth";
 import { getUserData } from "../../common/retrieveuserdata";
 
-export default function ProtectedRoute() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const navigate = useNavigate();
+export async function loader() {
+  try {
+    const [user, userData] = await Promise.all([checkUser(), getUserData()]);
 
-  useEffect(() => {
-    const authenticateUser = async () => {
-      try {
-        const user = await checkUser();
-        if (!user) {
-          setIsAuthenticated(false);
-          navigate("/login", { replace: true });
-          return null;
-        }
+    if (!user || !userData || !userData.account_id) {
+      return null;
+    }
 
-        const userData = await getUserData();
-        if (!userData || !userData.account_id) {
-          console.error("User data not found or invalid");
-          setIsAuthenticated(false);
-          navigate("/login", { replace: true });
-          return null;
-        }
-
-        setIsAuthenticated(true);
-        return userData;
-      } catch (error) {
-        console.error("Error during authentication", error);
-        setIsAuthenticated(false);
-        navigate("/login", { replace: true });
-        return null;
-      }
+    return {
+      user,
+      userData,
     };
-    authenticateUser();
-  }, [navigate]);
+  } catch (error) {
+    console.error("Error in loader:", error);
+    return null;
+  }
+}
 
-  if (isAuthenticated === null) {
-    return (
-      <h1 className="flex justify-center items-center font-bold text-xl">
-        Loading...
-      </h1>
-    );
+export default function ProtectedRoute() {
+  const navigate = useNavigate();
+  const { user, userData } = useLoaderData();
+
+  if (!user || !userData) {
+    navigate("/login", { replace: true });
+    return null;
   }
 
-  return <Outlet />;
+  return <Outlet context={userData} />;
 }
