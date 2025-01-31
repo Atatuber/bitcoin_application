@@ -1,19 +1,8 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { getUserData } from "../../common/retrieveuserdata";
 import AddWalletForm from "./AddWalletForm";
 import ErrorAlert from "../Common/ErrorAlert";
 import SuccessWithInfo from "./SuccessWithInfo";
-
-export async function loader() {
-  const userData = await getUserData();
-
-  if (userData === null) {
-    return;
-  }
-
-  return { userData };
-}
 
 export default function AddWalletPage() {
   const { userData } = useLoaderData();

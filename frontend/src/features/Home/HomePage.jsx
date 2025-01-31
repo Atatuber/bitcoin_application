@@ -1,36 +1,14 @@
 import { useLoaderData } from "react-router-dom";
 
-import { getUserData } from "../../common/retrieveuserdata";
-import { getUserWalletsAndKeysById } from "../../api/bitcoin";
-import { getTransactionsConnectedToAccount } from "../../api/transaction";
-
 import WelcomeSection from "./WelcomeSection";
 import WalletsSection from "./WalletsSection";
 import TransactionsSection from "./TransactionsSection";
 import QuickAccessSection from "./QuickAccessSection";
 
-export async function loader() {
-  try {
-    const userData = await getUserData();
-
-    if (userData === null) {
-      return;
-    }
-    const [wallets, transactions] = await Promise.all([
-      getUserWalletsAndKeysById(userData.account_id),
-      getTransactionsConnectedToAccount(userData.account_id),
-    ]);
-
-    return { userData, wallets, transactions };
-  } catch {
-    return { wallets: [], transactions: [] };
-  }
-}
-
 export default function HomePage() {
   const { userData, wallets, transactions } = useLoaderData();
 
-  const sortedWallets = [...wallets].sort((a, b) => b.balance - a.balance);
+  const sortedWallets = wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
 
   if (wallets === null) {
     return (

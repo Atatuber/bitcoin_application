@@ -1,8 +1,4 @@
 import { useState } from "react";
-
-import { getUserData } from "../../common/retrieveuserdata";
-import { getUserWalletsAndKeysById } from "../../api/bitcoin";
-import { getTransactionsConnectedToAccount } from "../../api/transaction";
 import { useLoaderData } from "react-router-dom";
 
 import WalletTable from "../Common/WalletTable";
@@ -11,30 +7,12 @@ import DeleteFilterButton from "./DeleteFilterButton";
 import Pagination from "../Common/Pagination";
 import PaginationButton from "../Common/PaginationButton";
 
-export async function loader() {
-  try {
-    const userData = await getUserData();
-
-    if (userData === null) {
-      return;
-    }
-    const [wallets, transactions] = await Promise.all([
-      getUserWalletsAndKeysById(userData.account_id),
-      getTransactionsConnectedToAccount(userData.account_id),
-    ]);
-
-    return { userData, wallets, transactions };
-  } catch {
-    return { wallets: [], transactions: [] };
-  }
-}
-
 export default function TransactionsPage() {
   const { wallets, transactions } = useLoaderData();
   const [filteredAddress, setFilteredAddress] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const sortedWallets = [...wallets].sort((a, b) => b.balance - a.balance);
+  const sortedWallets = wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
 
   const filterTransactions = (transactions, filteredAddress) => {
     if (!transactions) return [];

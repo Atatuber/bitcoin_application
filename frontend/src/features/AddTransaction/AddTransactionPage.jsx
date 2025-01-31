@@ -11,17 +11,6 @@ import Card from "./Card";
 import ErrorAlert from "../Common/ErrorAlert";
 import SuccessAlert from "../Common/SuccessAlert";
 
-export async function loader() {
-  try {
-    const userData = await getUserData();
-    const wallets = await getUserWalletsAndKeysById(userData.account_id);
-
-    return { wallets };
-  } catch {
-    return { wallets: [] };
-  }
-}
-
 export default function AddTransactionPage() {
   const { wallets: initialWallets } = useLoaderData();
 
@@ -65,7 +54,8 @@ export default function AddTransactionPage() {
     }
   };
 
-  const sortedWallets = [...wallets].sort((a, b) => b.balance - a.balance);
+  
+  const sortedWallets = wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
 
   return (
     <section className="bg-gray-50 py-12 flex flex-col items-center justify-center">
