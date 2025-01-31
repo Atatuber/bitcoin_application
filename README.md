@@ -84,10 +84,13 @@ Before you begin, ensure you have the following installed on your system:
     ```
 5. **Setup .env file**
 
-    - Create .env file in **bitcoin_application** directory.
-    - Setup AES_SECRET_KEY variable, example:
+    - Create .env file in **bitcoin_application** directory.  
+
+    - Setup AES_SECRET_KEY variable, example:  
+
        ```bash
        AES_SECRET_KEY='your_secret_key_here'
+       ```
 
 6. **Navigate to the Source Directory:**
 
