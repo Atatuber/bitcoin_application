@@ -2,7 +2,7 @@ export default function PaginationButton({ isNext, onClick, disabled }) {
   return disabled ? (
     <button
       onClick={onClick}
-      className="flex border-gray-200 bg-gray-100 shadow font-medium rounded-md px-3 py-2 border-2 text-black"
+      className="flex border-gray-200 bg-gray-100 shadow font-medium rounded-md px-3 py-2 border-2 text-black transition duration-300 ease-in-out"
       disabled
     >
       {isNext ? (
@@ -48,7 +48,7 @@ export default function PaginationButton({ isNext, onClick, disabled }) {
   ) : (
     <button
       onClick={onClick}
-      className="flex bg-white disabled:border-gray-200 disabled:bg-gray-50 shadow font-medium rounded-md px-3 py-2 border-2 text-black hover:bg-gray-50"
+      className="flex bg-white disabled:border-gray-200 disabled:bg-gray-50 shadow font-medium rounded-md px-3 py-2 border-2 text-black hover:bg-gray-50 transition duration-300 ease-in-out"
     >
       {isNext ? (
         <>

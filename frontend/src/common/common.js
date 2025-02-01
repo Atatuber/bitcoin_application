@@ -26,18 +26,33 @@ export function formatMessage({ address, amount, fee, role }) {
   return null;
 }
 
-export const calculateFee = (amount) => {
-  const minimumFee = 0.00001;
-  const maximumFee = 0.001;
-  const feePercentage = 0.001;
+const calculateFee = (option) => {
+  const satoshisPerBTC = 100000000;
+  const feeRates = {
+    slow: 1, // Low priority (e.g., 1 satoshi/byte)
+    normal: 5, // Medium priority (e.g., 5 satoshis/byte)
+    fast: 10, // High priority (e.g., 10 satoshis/byte)
+  };
 
-  let fee = amount * feePercentage;
+  const averageTxSize = 250;
 
-  if (fee < minimumFee) {
-    fee = minimumFee;
-  } else if (fee > maximumFee) {
-    fee = maximumFee;
+  const feeRate = feeRates[option] || feeRates.normal;
+  const feeInSatoshis = feeRate * averageTxSize;
+
+  const feeInBTC = feeInSatoshis / satoshisPerBTC;
+
+  return feeInBTC;
+};
+
+export const getFeeForOption = (option) => {
+  switch (option) {
+    case "slow":
+      return calculateFee("slow");
+    case "normal":
+      return calculateFee("normal");
+    case "fast":
+      return calculateFee("fast");
+    default:
+      return calculateFee("normal");
   }
-
-  return fee;
 };

@@ -5,7 +5,6 @@ import {
   RouterProvider,
   createRoutesFromElements,
   Route,
-  Outlet
 } from "react-router-dom";
 
 import Index from "./features/Index/Index";
@@ -24,20 +23,11 @@ const TransactionsPage = lazy(() =>
   import("./features/TransactionsPage/TransactionsPage")
 );
 
-const SuspenseLayout = () => {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <Outlet />
-    </Suspense>
-  );
-};
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<Index />}>
-      <Route element={<SuspenseLayout />}>
+      <Route path="/" element={<Suspense fallback={<LoadingSpinner />}><Index /></Suspense>}>
         <Route
           element={<ProtectedRoute />}
           loader={protectedRouteLoader}
@@ -62,7 +52,6 @@ const router = createBrowserRouter(
             element={<TransactionsPage />}
             loader={walletsAndTransactionsLoader}
           />
-          </Route>
         </Route>
       </Route>
     </Route>
@@ -70,5 +59,5 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <RouterProvider router={router} />
+    <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
 );

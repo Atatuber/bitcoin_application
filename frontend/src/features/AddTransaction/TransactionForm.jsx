@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { hasErrors } from "../../common/common";
-import { calculateFee } from "../../common/common";
+import { getFeeForOption } from "../../common/common";
 import { sendTransaction } from "../../api/transaction";
 import { getUserData } from "../../common/retrieveuserdata";
 
@@ -11,13 +10,14 @@ export default function TransactionForm({
   setSummaryData,
   refreshWallets,
 }) {
-  const navigate = useNavigate();
+
+  const [selectedFeeOption, setSelectedFeeOption] = useState("normal"); 
 
   const [formData, setFormData] = useState({
     sender_address: "",
     recipient_address: "",
     amount_to_spend: "",
-    fee: "",
+    fee: getFeeForOption(selectedFeeOption),
   });
 
   const [errors, setErrors] = useState({
@@ -27,10 +27,11 @@ export default function TransactionForm({
     fee: "",
   });
 
+
+
   const testnet4AddressRegex =
     /^(tb1[qp][02-9ac-hj-np-z]{38,59}|[mn][1-9A-HJ-NP-Za-km-z]{25,34}|2[1-9A-HJ-NP-Za-km-z]{25,34})$/;
 
-  const calculatedFee = calculateFee(formData.amount_to_spend);
 
   const validateField = (fieldName, value) => {
     if (fieldName === "sender_address" && value === "") {
@@ -57,16 +58,6 @@ export default function TransactionForm({
       }
     }
 
-    if (fieldName === "fee") {
-      if (isNaN(value) || value <= 0) {
-        return "Transaction costs must be a positive number";
-      }
-    }
-
-    if (fieldName === "fee" && value < calculatedFee) {
-      return `Minimal transaction cost: ${calculatedFee - value}`;
-    }
-
     return "";
   };
 
@@ -77,6 +68,13 @@ export default function TransactionForm({
     setFormData({ ...formData, [name]: value });
     setSummaryData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: errorMessage });
+  };
+
+  const handleFeeOptionClick = (option) => {
+    setSelectedFeeOption(option);
+    const fee = getFeeForOption(option);
+    setFormData((prev) => ({ ...prev, fee }));
+    setSummaryData((prev) => ({ ...prev, fee }));
   };
 
   const handleSubmit = async (e) => {
@@ -115,7 +113,7 @@ export default function TransactionForm({
         setMessageState({
           message: (
             <>
-              Transaction created succesfully. Follow:{" "}
+              Transaction created successfully. Follow:{" "}
               <a
                 className="font-bold"
                 href={linkToTransaction}
@@ -165,7 +163,7 @@ export default function TransactionForm({
       }
     } catch (error) {
       setMessageState({
-        message: `An error has occured. Try again`,
+        message: `An error has occurred. Try again`,
         type: "error",
         closed: false,
       });
@@ -266,35 +264,52 @@ export default function TransactionForm({
       </div>
 
       <div>
-        <label
-          htmlFor="fee"
-          className="block text-sm font-medium text-gray-900 mb-1"
-        >
-          Transaction costs (BTC)
+        <label className="block text-sm font-medium text-gray-900 mb-1">
+          Transaction Speed
         </label>
-        <input
-          type="text"
-          name="fee"
-          id="fee"
-          value={formData.fee}
-          onChange={handleChange}
-          placeholder="For example: 0.00012"
-          className={`bg-gray-50 border focus:outline text-gray-900 rounded-lg block w-full p-2.5 ${
-            errors.fee
-              ? "focus:outline-red-200 border-red-600"
-              : formData.fee !== ""
-              ? "focus:outline-green-200 border-green-600"
-              : "focus:outline-indigo-200 border-gray-300"
-          }`}
-        />
-        {errors.fee && (
-          <p className="text-red-600 text-sm mt-1">{errors.fee}</p>
-        )}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => handleFeeOptionClick("slow")}
+            className={`flex-1 py-2 px-4 rounded-lg shadow-lg border border-gray-200 hover:bg-indigo-600 transition duration-300 ease-in-out hover:text-white ${
+              selectedFeeOption === "slow"
+                ? "bg-indigo-600 border border-indigo-70 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Slow Arrival
+          </button>
+          <button
+            type="button"
+            onClick={() => handleFeeOptionClick("normal")}
+            className={`flex-1 py-2 px-4 rounded-lg shadow-lg border border-gray-200 hover:bg-indigo-600 transition duration-300 ease-in-out hover:text-white ${
+              selectedFeeOption === "normal"
+                ? "bg-indigo-600 border border-indigo-70 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Normal Arrival
+          </button>
+          <button
+            type="button"
+            onClick={() => handleFeeOptionClick("fast")}
+            className={`flex-1 py-2 px-4 rounded-lg shadow-lg border border-gray-200 hover:bg-indigo-600 transition duration-300 ease-in-out hover:text-white ${
+              selectedFeeOption === "fast"
+                ? "bg-indigo-600 border border-indigo-700 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Fast Arrival
+          </button>
+        </div>
+        <p className="text-sm text-gray-500 mt-1">
+          Selected Fee: <strong>{formData.fee}</strong> BTC
+        </p>
       </div>
 
       <button
         type="submit"
-        className="w-full bg-indigo-600 text-white py-2.5 px-4 rounded-lg shadow-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-300"
+        className="w-full bg-indigo-600 text-white py-2.5 px-4 rounded-lg shadow-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-300 transition duration-300 ease-in-out"
       >
         Send transaction
       </button>

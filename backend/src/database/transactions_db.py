@@ -78,3 +78,24 @@ def checkTxidExists(txid):
     if df is not None and not df.empty:
         return True
     return False
+
+def checkTxidExistsForWallet(txid, wallet_id, address, is_sending):
+    query = """
+    SELECT 1
+    FROM transactions
+    WHERE txid = :txid
+      AND wallet_id = :wallet_id
+      AND (address_from = :address OR address_to = :address)
+      AND sending = :is_sending
+    LIMIT 1
+    """
+    params = {
+        "txid": txid,
+        "wallet_id": wallet_id,
+        "address": address,
+        "is_sending": is_sending
+    }
+    df = db.readQuery(query, params)
+    if df is not None and not df.empty:
+        return True
+    return False

@@ -12,7 +12,8 @@ export default function TransactionsPage() {
   const [filteredAddress, setFilteredAddress] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const sortedWallets = wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
+  const sortedWallets =
+    wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
 
   const filterTransactions = (transactions, filteredAddress) => {
     if (!transactions) return [];
@@ -118,15 +119,9 @@ export default function TransactionsPage() {
       </section>
 
       <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-1">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-semibold">All wallets</h1>
-            <p className="text-gray-600">View all your BTC wallets</p>
-          </div>
-          <DeleteFilterButton
-            filteredAddress={filteredAddress}
-            setFilteredAddress={setFilteredAddress}
-          />
+        <div>
+          <h1 className="text-3xl font-semibold">All wallets</h1>
+          <p className="text-gray-600">View all your BTC wallets</p>
         </div>
         {wallets && wallets.length > 0 ? (
           <div className="overflow-x-auto shadow-lg rounded-lg m-2">

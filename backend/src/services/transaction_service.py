@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from bitcoinlib.transactions import Transaction
 from bitcoinlib.keys import HDKey
 from database.bitcoin_db import getWalletByAddress, storeTransaction
-from database.transactions_db import getTransactionsConnectedToAccount, getWalletIdFromAddress, updateTransactions, getAddressFromAccountId, checkTxidExists
+from database.transactions_db import getTransactionsConnectedToAccount, getWalletIdFromAddress, updateTransactions, getAddressFromAccountId, checkTxidExistsForWallet
 def getUtxos(address):
     url = f"https://mempool.space/testnet4/api/address/{address}/utxo"
     response = requests.get(url)
@@ -155,33 +155,69 @@ def getAllAccountTransactions(account_id):
         
         print("Filtered transactions:")
         for tx in filtered_transactions:
-            txExists = checkTxidExists(tx["txid"])
-            if txExists:
-                print(f"Transaction already processed: {tx['txid']}")
-                continue 
-
-            print(f"Processing transaction: {tx['txid']}")
-
+            # Check if the transaction is internal (within the same wallet)
             address_from_wallet = getWalletIdFromAddress(tx["address_from"])
             address_to_wallet = getWalletIdFromAddress(tx["address_to"])
 
             if address_from_wallet and address_to_wallet:
                 if address_from_wallet["wallet_id"] == address_to_wallet["wallet_id"]:
+                    # Internal transaction within the same wallet
                     print(f"Internal transaction within the same wallet: {tx['txid']}")
-                    continue  
-                else:
-                    print(f"Internal transaction between wallets: {tx['txid']}")
-                    walletId_from = address_from_wallet["wallet_id"]
-                    walletId_to = address_to_wallet["wallet_id"]
-                    amount = tx["amount"] * 100000000
 
-                    updateTransactions(walletId_from, tx["address_from"], tx["address_to"], True, tx["txid"], amount)
-                    updateTransactions(walletId_to, tx["address_from"], tx["address_to"], False, tx["txid"], amount)
+                    # Check if the sending side of the transaction already exists
+                    tx_exists_send = checkTxidExistsForWallet(tx["txid"], address_from_wallet["wallet_id"], tx["address_from"], True)
+                    if not tx_exists_send:
+                        # Process the sending side
+                        walletId_from = address_from_wallet["wallet_id"]
+                        amount = tx["amount"] * 100000000
+                        updateTransactions(walletId_from, tx["address_from"], tx["address_to"], True, tx["txid"], amount)
+                    else:
+                        print(f"Sending side of transaction already processed: {tx['txid']}")
+
+                    # Check if the receiving side of the transaction already exists
+                    tx_exists_receive = checkTxidExistsForWallet(tx["txid"], address_to_wallet["wallet_id"], tx["address_to"], False)
+                    if not tx_exists_receive:
+                        # Process the receiving side
+                        walletId_to = address_to_wallet["wallet_id"]
+                        amount = tx["amount"] * 100000000
+                        updateTransactions(walletId_to, tx["address_from"], tx["address_to"], False, tx["txid"], amount)
+                    else:
+                        print(f"Receiving side of transaction already processed: {tx['txid']}")
+
+                else:
+                    # Internal transaction between different wallets
+                    print(f"Internal transaction between wallets: {tx['txid']}")
+
+                    # Check if the sending side of the transaction already exists
+                    tx_exists_send = checkTxidExistsForWallet(tx["txid"], address_from_wallet["wallet_id"], tx["address_from"], True)
+                    if not tx_exists_send:
+                        walletId_from = address_from_wallet["wallet_id"]
+                        amount = tx["amount"] * 100000000
+                        updateTransactions(walletId_from, tx["address_from"], tx["address_to"], True, tx["txid"], amount)
+                    else:
+                        print(f"Sending side of transaction already processed: {tx['txid']}")
+
+                    # Check if the receiving side of the transaction already exists
+                    tx_exists_receive = checkTxidExistsForWallet(tx["txid"], address_to_wallet["wallet_id"], tx["address_to"], False)
+                    if not tx_exists_receive:
+                        walletId_to = address_to_wallet["wallet_id"]
+                        amount = tx["amount"] * 100000000
+                        updateTransactions(walletId_to, tx["address_from"], tx["address_to"], False, tx["txid"], amount)
+                    else:
+                        print(f"Receiving side of transaction already processed: {tx['txid']}")
+
             else:
+                # External transaction
                 walletId = getWalletIdFromAddress(tx["address_to"])["wallet_id"]
                 sending = False
-                amount = tx["amount"] * 100000000
-                updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount)
+
+                # Check if the transaction already exists for this wallet and address
+                tx_exists = checkTxidExistsForWallet(tx["txid"], walletId, tx["address_to"], sending)
+                if not tx_exists:
+                    amount = tx["amount"] * 100000000
+                    updateTransactions(walletId, tx["address_from"], tx["address_to"], sending, tx["txid"], amount)
+                else:
+                    print(f"Transaction already processed: {tx['txid']}")
 
         transactions = getTransactionsConnectedToAccount(account_id)
         if transactions is None:
