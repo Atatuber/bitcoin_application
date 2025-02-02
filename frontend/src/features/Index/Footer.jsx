@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="bg-white shadow m-0 p-4">
-      <div className="w-full p-4 md:flex md:items-center md:justify-between">
+      <div className="w-full p-4 md:flex md:items-center md:justify-between lg:mx-auto max-w-[1440px]">
         <span className="text-sm text-gray-500 sm:text-center">
           © 2025{" "}
           <a href="/" className="hover:underline">

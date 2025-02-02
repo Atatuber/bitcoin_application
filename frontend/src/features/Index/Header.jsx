@@ -25,7 +25,7 @@ export default function Header({ location }) {
   return (
     <header className="bg-white shadow">
       <nav className="bg-white border-gray-200">
-        <div className="flex items-center justify-between mx-auto p-4">
+        <div className="flex items-center justify-between lg:mx-auto max-w-[1440px] p-4">
           <div className="flex gap-10">
             <Link
               to="/"

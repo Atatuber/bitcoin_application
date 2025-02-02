@@ -50,7 +50,7 @@ export default function TransactionsPage() {
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-6">
+    <div className="flex flex-col gap-4 p-4 lg:mx-auto max-w-[1440px]">
       <section className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center md:col-span-2">
         <h1 className="text-3xl font-semibold">All transactions</h1>
         <p className="text-gray-600">View all your transactions</p>

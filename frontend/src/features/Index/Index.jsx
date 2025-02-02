@@ -17,7 +17,7 @@ export default function Index() {
 
   const skeletonScreens = () => {
     return (
-      <div className="flex justify-center items-center w-full gap-4">
+      <div className="flex justify-center items-center w-full gap-4 lg:mx-auto max-w-[1440px]">
         <SkeletonSection />
         <SkeletonSection />
         <SkeletonSection />

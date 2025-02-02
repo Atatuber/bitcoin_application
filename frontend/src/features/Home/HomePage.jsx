@@ -3,12 +3,13 @@ import { useLoaderData } from "react-router-dom";
 import WelcomeSection from "./WelcomeSection";
 import WalletsSection from "./WalletsSection";
 import TransactionsSection from "./TransactionsSection";
-import QuickAccessSection from "./QuickAccessSection";
+import BitcoinBalanceWithGraph from "../BitcoinStatus/BitcoinBalanceWithGraph";
 
 export default function HomePage() {
   const { userData, wallets, transactions } = useLoaderData();
 
-  const sortedWallets = wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
+  const sortedWallets =
+    wallets.length > 0 && [...wallets].sort((a, b) => b.balance - a.balance);
 
   if (wallets === null) {
     return (
@@ -24,13 +25,15 @@ export default function HomePage() {
   }
 
   return (
-    <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 p-4">
-      <WelcomeSection username={userData.username} />
+    <div className="flex flex-col lg:mx-auto gap-4 p-4 max-w-[1440px]">
+      <div className="flex flex-col lg:flex-row">
+        <WelcomeSection username={userData.username} />
+        <BitcoinBalanceWithGraph wallets={wallets} />
+      </div>
       <WalletsSection
         wallets={sortedWallets}
         headerMsg={"Beschikbare wallets"}
       />
-      <QuickAccessSection />
       <TransactionsSection transactions={transactions} />
     </div>
   );
