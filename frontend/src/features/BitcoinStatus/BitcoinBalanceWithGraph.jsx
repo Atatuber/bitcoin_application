@@ -29,10 +29,12 @@ export default function BitcoinBalanceWithGraph({ wallets }) {
   });
   const [timePeriod, setTimePeriod] = useState(30);
 
-  const btcBalances = wallets
-    .filter((wallet) => wallet.balance > 0)
-    .map((wallet) => wallet.balance)
-    .reduce((acc, value) => acc + value, 0);
+  const btcBalances = Array.isArray(wallets)
+    ? wallets
+        .filter((wallet) => wallet.balance > 0)
+        .map((wallet) => wallet.balance)
+        .reduce((acc, value) => acc + value, 0)
+    : 0;
 
   const btcToEuros = async (balance) => {
     try {
